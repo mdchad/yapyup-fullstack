@@ -2,61 +2,89 @@ import Header from "@/components/header";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import type { trpc } from "@/utils/trpc";
-import type { QueryClient } from "@tanstack/react-query";
+import { queryClient, type trpc } from "@/utils/trpc";
+import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import {
   HeadContent,
   Outlet,
   createRootRouteWithContext,
   useRouterState,
+  redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "../index.css";
+import { authClient } from "@/lib/auth-client";
+import { useEffect } from "react";
+import { router } from "@/main";
+import { z } from "zod";
 
 export interface RouterAppContext {
   trpc: typeof trpc;
   queryClient: QueryClient;
+  auth: any;
 }
 
+const redirectSearchSchema = z.object({
+  app_redirect: z.string().optional(),
+});
+
 export const Route = createRootRouteWithContext<RouterAppContext>()({
+  validateSearch: redirectSearchSchema,
+  beforeLoad: async ({ context, location }) => {
+    const isAuthenticated = !!context.auth?.data?.session?.id;
+    const isPending = context.auth.isPending;
+    console.log("isAuthenticated", context.auth);
+
+    // const isAuthenticated = !!session?.user
+    const isDashboardRoute = location.pathname.startsWith("/dashboard");
+    const isDashboardRedirectRoute =
+      location &&
+      location.search &&
+      location.search.app_redirect &&
+      location.search.app_redirect.startsWith("/dashboard");
+    if (!isAuthenticated && !isPending && isDashboardRoute) {
+      throw redirect({
+        to: "/sign-in",
+        search: {
+          app_redirect: location.href,
+        },
+      });
+    }
+
+    // if (isAuthenticated) {
+    //   context.queryClient.ensureQueryData(authQueries.fullOrganization());
+    //   context.queryClient.ensureQueryData(authQueries.activeMember());
+    // }
+
+    if (
+      isAuthenticated &&
+      isDashboardRedirectRoute &&
+      location.searchStr !== ""
+    ) {
+      throw redirect({
+        to: location.search.app_redirect,
+      });
+    }
+  },
   component: RootComponent,
-  head: () => ({
-    meta: [
-      {
-        title: "My App",
-      },
-      {
-        name: "description",
-        content: "My App is a web application",
-      },
-    ],
-    links: [
-      {
-        rel: "icon",
-        href: "/favicon.ico",
-      },
-    ],
-  }),
 });
 
 function RootComponent() {
-  const isFetching = useRouterState({
-    select: (s) => s.isLoading,
-  });
+  const session = authClient.useSession();
+
+  useEffect(() => {
+    router.invalidate();
+  }, [session?.data?.session?.id]);
 
   return (
-    <>
-      <HeadContent />
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="grid grid-rows-[auto_1fr] h-svh">
-          <Header />
-          {isFetching ? <Loader /> : <Outlet />}
-        </div>
-        <Toaster richColors />
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Outlet />
+        <Toaster />
+        <TanStackRouterDevtools position="bottom-right" />
+        <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
       </ThemeProvider>
-      <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
-    </>
+    </QueryClientProvider>
   );
 }

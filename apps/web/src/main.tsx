@@ -5,12 +5,18 @@ import { routeTree } from "./routeTree.gen";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, trpc } from "./utils/trpc";
+import { useEffect } from "react";
+import { AuthProvider, useAuth } from "@/providers/auth-provider";
 
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   defaultPreload: "intent",
-  defaultPendingComponent: () => <Loader />,
-  context: { trpc, queryClient },
+  // defaultPendingComponent: () => <Loader />,
+  context: {
+    trpc,
+    queryClient,
+    auth: undefined,
+  },
   Wrap: function WrapComponent({ children }: { children: React.ReactNode }) {
     return (
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -24,13 +30,23 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("app");
+export const App = () => {
+  const auth = useAuth();
 
-if (!rootElement) {
-  throw new Error("Root element not found");
-}
+  useEffect(() => {
+    router.invalidate();
+  }, [auth?.data?.session.id]);
+
+  return <RouterProvider router={router} context={{ auth }} />;
+};
+
+const rootElement = document.getElementById("app")!;
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(
+    <AuthProvider>
+      <App />
+    </AuthProvider>,
+  );
 }

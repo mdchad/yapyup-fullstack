@@ -1,164 +1,172 @@
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { useForm } from "@tanstack/react-form";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, redirect, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import z from "zod/v4";
-import Loader from "./loader";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 
-export default function SignUpForm({
-  onSwitchToSignIn,
-}: {
-  onSwitchToSignIn: () => void;
-}) {
-  const navigate = useNavigate({
-    from: "/",
-  });
-  const { isPending } = authClient.useSession();
+type SignUpFormProps = {
+  className?: string;
+  nextStep?: boolean;
+  userInvitedEmail?: string;
+  setCurrentStep?: (step: number) => void;
+  children?: React.ReactNode;
+};
 
-  const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      name: "",
-    },
-    onSubmit: async ({ value }) => {
-      await authClient.signUp.email(
-        {
-          email: value.email,
-          password: value.password,
-          name: value.name,
+export function SignUpForm({
+  className,
+  nextStep,
+  userInvitedEmail,
+  setCurrentStep,
+  ...props
+}: SignUpFormProps) {
+  const [email, setEmail] = useState(userInvitedEmail ? userInvitedEmail : "");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    const { data, error } = await authClient.signUp.email(
+      {
+        email, // user email address
+        password, // user password -> min 8 characters by default
+        name: name, // user display name
+        // image, // User image URL (optional)
+        // callbackURL: "/dashboard", // A URL to redirect to after the user verifies their email (optional)
+      },
+      {
+        onRequest: (ctx) => {
+          setIsLoading(true);
+          //show loading
         },
-        {
-          onSuccess: () => {
-            navigate({
-              to: "/dashboard",
-            });
-            toast.success("Sign up successful");
-          },
-          onError: (error) => {
-            toast.error(error.error.message);
-          },
+        onSuccess: (ctx) => {
+          setIsLoading(false);
+          //redirect to the dashboard or sign in page
+          // redirect('/dashboard')
+          if (nextStep && setCurrentStep) {
+            setCurrentStep(2);
+          } else {
+            navigate({ to: "/create-organisation" });
+          }
         },
-      );
-    },
-    validators: {
-      onSubmit: z.object({
-        name: z.string().min(2, "Name must be at least 2 characters"),
-        email: z.email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
-      }),
-    },
-  });
-
-  if (isPending) {
-    return <Loader />;
-  }
+        onError: (ctx) => {
+          setIsLoading(false);
+          toast.error(ctx.error.message, {});
+          // display the error message
+          // alert(ctx.error.message);
+        },
+      },
+    );
+  };
 
   return (
-    <div className="mx-auto w-full mt-10 max-w-md p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          void form.handleSubmit();
-        }}
-        className="space-y-4"
-      >
-        <div>
-          <form.Field name="name">
-            {(field) => (
-              <div className="space-y-2">
-                <Label htmlFor={field.name}>Name</Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-                {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
-                    {error?.message}
-                  </p>
-                ))}
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      {success ? (
+        <Card className="shadow-lg border-0">
+          <CardHeader>
+            <CardTitle className="text-2xl">
+              Thank you for signing up!
+            </CardTitle>
+            <CardDescription>Check your email to confirm</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              You've successfully signed up. Please check your email to confirm
+              your account before signing in.
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="shadow-lg border-0">
+          <CardHeader>
+            <CardTitle className="text-2xl">Sign up</CardTitle>
+            <CardDescription>Create a new account</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSignUp}>
+              <div className="flex flex-col gap-6">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="John"
+                    required
+                    autoComplete="username"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    className="disabled:bg-gray-200"
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                    disabled={nextStep}
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="********"
+                    required
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <hr />
+                {/*<div className="grid gap-2">*/}
+                {/*  <Label htmlFor="workspace-name">Organisation Name</Label>*/}
+                {/*  <Input*/}
+                {/*    id="workspace-name"*/}
+                {/*    type="text"*/}
+                {/*    placeholder="Your workspace name"*/}
+                {/*    required*/}
+                {/*    value={organisation}*/}
+                {/*    onChange={(e) => setOrganisation(e.target.value)}*/}
+                {/*  />*/}
+                {/*</div>*/}
+                {error && <p className="text-sm text-red-500">{error}</p>}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Creating an account..." : "Sign up"}
+                </Button>
               </div>
-            )}
-          </form.Field>
-        </div>
-
-        <div>
-          <form.Field name="email">
-            {(field) => (
-              <div className="space-y-2">
-                <Label htmlFor={field.name}>Email</Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  type="email"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-                {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
-                    {error?.message}
-                  </p>
-                ))}
-              </div>
-            )}
-          </form.Field>
-        </div>
-
-        <div>
-          <form.Field name="password">
-            {(field) => (
-              <div className="space-y-2">
-                <Label htmlFor={field.name}>Password</Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  type="password"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-                {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
-                    {error?.message}
-                  </p>
-                ))}
-              </div>
-            )}
-          </form.Field>
-        </div>
-
-        <form.Subscribe>
-          {(state) => (
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={!state.canSubmit || state.isSubmitting}
-            >
-              {state.isSubmitting ? "Submitting..." : "Sign Up"}
-            </Button>
-          )}
-        </form.Subscribe>
-      </form>
-
-      <div className="mt-4 text-center">
-        <Button
-          variant="link"
-          onClick={onSwitchToSignIn}
-          className="text-indigo-600 hover:text-indigo-800"
-        >
-          Already have an account? Sign In
-        </Button>
-      </div>
+              {!nextStep && (
+                <div className="mt-4 text-center text-sm">
+                  Already have an account?{" "}
+                  <Link to="/sign-in" className="underline underline-offset-4">
+                    Login
+                  </Link>
+                </div>
+              )}
+            </form>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
