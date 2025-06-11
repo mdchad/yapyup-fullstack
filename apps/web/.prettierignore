@@ -1,2 +1,3 @@
 *.gen.ts
-README.md
+**/README.md
+**/.tanstack/**
