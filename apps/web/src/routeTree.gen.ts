@@ -189,13 +189,6 @@ export interface RootRouteChildren {
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
     "/about": {
       id: "/about";
       path: "/about";
@@ -203,39 +196,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof AboutRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/_auth/create-organisation": {
-      id: "/_auth/create-organisation";
-      path: "/create-organisation";
-      fullPath: "/create-organisation";
-      preLoaderRoute: typeof AuthCreateOrganisationRouteImport;
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/_auth/forgot-password": {
-      id: "/_auth/forgot-password";
-      path: "/forgot-password";
-      fullPath: "/forgot-password";
-      preLoaderRoute: typeof AuthForgotPasswordRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/reset-password": {
-      id: "/_auth/reset-password";
-      path: "/reset-password";
-      fullPath: "/reset-password";
-      preLoaderRoute: typeof AuthResetPasswordRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/set-organisation": {
-      id: "/_auth/set-organisation";
-      path: "/set-organisation";
-      fullPath: "/set-organisation";
-      preLoaderRoute: typeof AuthSetOrganisationRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/sign-in": {
-      id: "/_auth/sign-in";
-      path: "/sign-in";
-      fullPath: "/sign-in";
-      preLoaderRoute: typeof AuthSignInRouteImport;
+    "/_protected/dashboard": {
+      id: "/_protected/dashboard";
+      path: "/dashboard";
+      fullPath: "/dashboard";
+      preLoaderRoute: typeof ProtectedDashboardRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/_auth/sign-up": {
@@ -245,11 +217,39 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof AuthSignUpRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/_protected/dashboard": {
-      id: "/_protected/dashboard";
-      path: "/dashboard";
-      fullPath: "/dashboard";
-      preLoaderRoute: typeof ProtectedDashboardRouteImport;
+    "/_auth/sign-in": {
+      id: "/_auth/sign-in";
+      path: "/sign-in";
+      fullPath: "/sign-in";
+      preLoaderRoute: typeof AuthSignInRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_auth/set-organisation": {
+      id: "/_auth/set-organisation";
+      path: "/set-organisation";
+      fullPath: "/set-organisation";
+      preLoaderRoute: typeof AuthSetOrganisationRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_auth/reset-password": {
+      id: "/_auth/reset-password";
+      path: "/reset-password";
+      fullPath: "/reset-password";
+      preLoaderRoute: typeof AuthResetPasswordRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_auth/forgot-password": {
+      id: "/_auth/forgot-password";
+      path: "/forgot-password";
+      fullPath: "/forgot-password";
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_auth/create-organisation": {
+      id: "/_auth/create-organisation";
+      path: "/create-organisation";
+      fullPath: "/create-organisation";
+      preLoaderRoute: typeof AuthCreateOrganisationRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/_auth/accept-invitation/$invitationId": {

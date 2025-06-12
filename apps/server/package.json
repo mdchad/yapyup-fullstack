@@ -8,6 +8,7 @@
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
     "dev": "bun run --hot src/index.ts",
     "start": "bun run dist/src/index.js",
+    "start:prod": "bun run index.js",
     "db:local": "turso dev --db-file local.db",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
