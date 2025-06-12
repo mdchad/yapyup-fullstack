@@ -73,10 +73,10 @@ fastify.get("/", async () => {
   return "OK";
 });
 
-fastify.listen({ port }, (err) => {
+fastify.listen({ port, host: "0.0.0.0" }, (err) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
   }
-  console.log("Server running on port 3000");
+  console.log(`Server running on port ${port}`);
 });
