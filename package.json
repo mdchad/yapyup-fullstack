@@ -2,8 +2,8 @@
   "name": "yapyup-fullstack",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "prepare": "husky",
