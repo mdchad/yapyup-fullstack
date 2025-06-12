@@ -22,7 +22,7 @@ import { z } from "zod";
 export interface RouterAppContext {
   trpc: typeof trpc;
   queryClient: QueryClient;
-  auth: any;
+  auth: ReturnType<typeof authClient.useSession> | undefined;
 }
 
 const redirectSearchSchema = z.object({
@@ -33,8 +33,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   validateSearch: redirectSearchSchema,
   beforeLoad: async ({ context, location }) => {
     const isAuthenticated = !!context.auth?.data?.session?.id;
-    const isPending = context.auth.isPending;
-    console.log("isAuthenticated", context.auth);
+    const isPending = context.auth?.isPending;
 
     // const isAuthenticated = !!session?.user
     const isDashboardRoute = location.pathname.startsWith("/dashboard");
@@ -52,11 +51,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       });
     }
 
-    // if (isAuthenticated) {
-    //   context.queryClient.ensureQueryData(authQueries.fullOrganization());
-    //   context.queryClient.ensureQueryData(authQueries.activeMember());
-    // }
-
     if (
       isAuthenticated &&
       isDashboardRedirectRoute &&
@@ -68,6 +62,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     }
   },
   component: RootComponent,
+  errorComponent: ({ error }) => {
+    console.error("route error:", error);
+    console.error("HOIII");
+    return <div>Route Error: {error.message}</div>;
+  },
 });
 
 function RootComponent() {

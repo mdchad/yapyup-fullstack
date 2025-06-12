@@ -7,7 +7,7 @@ import resend from "./resend";
 import { desc, eq } from "drizzle-orm";
 import resendInvitation from "@/utils/resend-invitation";
 
-export const auth = betterAuth({
+export const auth: any = betterAuth({
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema,

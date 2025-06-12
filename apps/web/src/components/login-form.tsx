@@ -48,7 +48,7 @@ export function LoginForm({
 
   // Height animation setup
   const [elementRef, bounds] = useMeasure();
-  const previousHeightRef = useRef<number>();
+  const previousHeightRef = useRef<number | null>(null);
 
   // Calculate animation duration based on height difference
   const animationDuration = useMemo(() => {
@@ -114,7 +114,9 @@ export function LoginForm({
           setIsSuccess(true);
 
           if (!redirect) {
-            navigate({ to: "/dashboard" });
+            await navigate({
+              to: "/dashboard",
+            });
           }
           setIsLoading(false);
         },

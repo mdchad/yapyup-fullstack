@@ -17,7 +17,7 @@ function HomeComponent() {
 
   return (
     <>
-      {/*<Header isAuthenticated={session.data}/>*/}
+      <Header isAuthenticated={session.data} />
       <div className="p-2">
         <h3>Welcome Home!</h3>
         <Link to="/dashboard">Go to Dashboard</Link>

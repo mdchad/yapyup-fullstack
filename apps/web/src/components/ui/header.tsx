@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
-export function Header({ isAuthenticated }) {
+export function Header({ isAuthenticated }: { isAuthenticated: any }) {
   return (
     <div
       className={

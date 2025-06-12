@@ -39,13 +39,14 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useRef } from "react";
-import { LayersIcon } from "@/components/ui/layers";
+import { LayersIcon, type LayersIconHandle } from "@/components/ui/layers";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { Separator } from "@/components/ui/separator";
-import { CheckIcon } from "@/components/ui/check";
+import { CheckIcon, type CheckIconHandle } from "@/components/ui/check";
 import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
+import { toast } from "sonner";
 
 // Menu items.
 const items = [
@@ -83,13 +84,16 @@ export function AppSidebar({ user }: { user: any }) {
   const { data, isLoading } = useQuery(authQueries.activeMember());
 
   const iconRef = useRef(null);
-  const layersIconRef = useRef(null);
-  const checkIconRef = useRef(null);
+  const layersIconRef = useRef<LayersIconHandle | null>(null);
+  const checkIconRef = useRef<CheckIconHandle | null>(null);
 
   async function handleSignOut() {
     try {
       await authClient.signOut();
-    } catch (error) {}
+    } catch (error) {
+      console.log("err", error);
+      toast.error("Error logging out. Please try again", {});
+    }
   }
 
   return (
@@ -140,7 +144,10 @@ export function AppSidebar({ user }: { user: any }) {
                     );
                   })}
                 <Separator className="my-2" />
-                <Link to={`/dashboard/org/${activeOrganization?.id}`}>
+                <Link
+                  to="/dashboard/org/$orgId"
+                  params={{ orgId: activeOrganization?.id || "" }}
+                >
                   <DropdownMenuItem className="cursor-pointer p-2">
                     <div className="flex items-center gap-2 text-sm">
                       <Settings size={16} />

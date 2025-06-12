@@ -1,4 +1,4 @@
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { RouterProvider, createRouter, Link } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 import Loader from "./components/loader";
 import { routeTree } from "./routeTree.gen";
@@ -11,11 +11,19 @@ import { AuthProvider, useAuth } from "@/providers/auth-provider";
 export const router = createRouter({
   routeTree,
   defaultPreload: "intent",
-  // defaultPendingComponent: () => <Loader />,
+  defaultPendingComponent: () => <Loader />,
   context: {
     trpc,
     queryClient,
     auth: undefined,
+  },
+  defaultNotFoundComponent: () => {
+    return (
+      <div>
+        <p>Not found!</p>
+        <Link to="/">Go home</Link>
+      </div>
+    );
   },
   Wrap: function WrapComponent({ children }: { children: React.ReactNode }) {
     return (

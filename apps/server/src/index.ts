@@ -7,7 +7,7 @@ import {
   type FastifyTRPCPluginOptions,
 } from "@trpc/server/adapters/fastify";
 import { createContext } from "./lib/context";
-import { appRouter, type AppRouter } from "./routers/index";
+import { appRouter, type AppRouter } from "@/routers";
 
 import { auth } from "./lib/auth";
 
@@ -42,7 +42,9 @@ fastify.route({
       });
       const response = await auth.handler(req);
       reply.status(response.status);
-      response.headers.forEach((value, key) => reply.header(key, value));
+      response.headers.forEach((value: any, key: any) =>
+        reply.header(key, value),
+      );
       reply.send(response.body ? await response.text() : null);
     } catch (error) {
       fastify.log.error("Authentication Error:", error);
