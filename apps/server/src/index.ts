@@ -11,6 +11,8 @@ import { appRouter, type AppRouter } from "@/routers";
 
 import { auth } from "./lib/auth";
 
+const port = Number(process.env.PORT) || 3000;
+
 const baseCorsConfig = {
   origin: process.env.CORS_ORIGIN || "",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -71,7 +73,7 @@ fastify.get("/", async () => {
   return "OK";
 });
 
-fastify.listen({ port: 3000 }, (err) => {
+fastify.listen({ port }, (err) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
