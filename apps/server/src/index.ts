@@ -11,8 +11,8 @@ import { appRouter, type AppRouter } from "@/routers";
 
 import { auth } from "./lib/auth";
 
-const port = Number(process.env.PORT) || 3000;
-console.log("port", port);
+const port = process.env.PORT || 3000;
+const host = "RENDER" in process.env ? `0.0.0.0` : `localhost`;
 
 const baseCorsConfig = {
   origin: process.env.CORS_ORIGIN || "",
@@ -74,15 +74,23 @@ fastify.get("/", async () => {
   return "OK";
 });
 
-fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
+fastify.listen({ host: host, port: port as number }, function (err, address) {
   if (err) {
     console.error("❌ Fastify listen error:", err);
-    console.error("Error message:", err.message);
-    console.error(`✅ Server running on port ${port}`);
-    console.error(`✅ Server address: ${address}`);
     fastify.log.error(err);
     process.exit(1);
   }
-  console.log(`✅ Server running on port ${port}`);
-  console.log(`✅ Server address: ${address}`);
 });
+
+// fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
+//   if (err) {
+//     console.error("❌ Fastify listen error:", err);
+//     console.error("Error message:", err.message);
+//     console.error(`✅ Server running on port ${port}`);
+//     console.error(`✅ Server address: ${address}`);
+//     fastify.log.error(err);
+//     process.exit(1);
+//   }
+//   console.log(`✅ Server running on port ${port}`);
+//   console.log(`✅ Server address: ${address}`);
+// });
