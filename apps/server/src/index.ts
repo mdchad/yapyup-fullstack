@@ -13,6 +13,7 @@ import { auth } from "./lib/auth";
 
 const port = process.env.PORT || 3000;
 const host = "RENDER" in process.env ? `0.0.0.0` : `localhost`;
+console.log(process.env);
 
 const baseCorsConfig = {
   origin: process.env.CORS_ORIGIN || "",
