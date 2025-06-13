@@ -12,6 +12,7 @@ import { appRouter, type AppRouter } from "@/routers";
 import { auth } from "./lib/auth";
 
 const port = Number(process.env.PORT) || 3000;
+console.log("port", port);
 
 const baseCorsConfig = {
   origin: process.env.CORS_ORIGIN || "",

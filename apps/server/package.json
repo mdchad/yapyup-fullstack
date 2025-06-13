@@ -35,5 +35,9 @@
     "typescript": "^5.8.2",
     "@types/bun": "^1.2.6",
     "drizzle-kit": "^0.30.5"
-  }
+  },
+  "trustedDependencies": [
+    "@swc/core",
+    "@tailwindcss/oxide"
+  ]
 }
