@@ -32,4 +32,4 @@ COPY --from=builder /app/apps/server/package.json ./apps/server/package.json
 EXPOSE 3000
 
 # Start the server application
-CMD ["bun", "run", "dist/src/index.js"] 
+CMD ["bun", "run", "dist/apps/server/src/index.js"] 
