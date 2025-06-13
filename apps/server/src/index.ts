@@ -76,6 +76,8 @@ fastify.get("/", async () => {
 
 fastify.listen({ port, host: "0.0.0.0" }, (err) => {
   if (err) {
+    console.error("❌ Fastify listen error:", err);
+    console.error("Error message:", err.message);
     fastify.log.error(err);
     process.exit(1);
   }
