@@ -21,7 +21,7 @@ WORKDIR /app
 # Copy the root workspace structure
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/packages ./packages
-COPY --from=builder /app/bun.lockb .
+COPY --from=builder /app/bun.lock .
 COPY --from=builder /app/package.json .
 
 # Copy server files
