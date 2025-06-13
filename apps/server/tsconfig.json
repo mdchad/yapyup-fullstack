@@ -8,13 +8,16 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@yapyup/emails/*": ["../../packages/transactional/emails/*"]
     },
     "outDir": "./dist",
     "types": ["bun"],
     "composite": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": "../.."
   },
+  "include": ["src/**/*", "../../packages/transactional/emails/**/*"],
   "tsc-alias": {
     "resolveFullPaths": true
   }
