@@ -10,6 +10,7 @@
     "dev": "turbo dev",
     "dev:webapp": "turbo -F web -F server dev",
     "build": "turbo build",
+    "build:web": "turbo -F web build",
     "check-types": "turbo check-types",
     "dev:native": "turbo -F native dev",
     "dev:web": "turbo -F web dev",
@@ -17,13 +18,14 @@
     "db:push": "turbo -F server db:push",
     "db:studio": "turbo -F server db:studio",
     "db:generate": "turbo -F server db:generate",
-    "db:migrate": "turbo -F server db:migrate"
+    "db:migrate": "turbo -F server db:migrate",
+    "deploy:web": "turbo -F web deploy"
   },
   "dependencies": {},
   "devDependencies": {
-    "turbo": "^2.5.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.5.0"
+    "lint-staged": "^15.5.0",
+    "turbo": "^2.5.4"
   },
   "lint-staged": {
     "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
