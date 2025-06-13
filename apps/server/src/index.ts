@@ -74,12 +74,15 @@ fastify.get("/", async () => {
   return "OK";
 });
 
-fastify.listen({ port, host: "0.0.0.0" }, (err) => {
+fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
   if (err) {
     console.error("❌ Fastify listen error:", err);
     console.error("Error message:", err.message);
+    console.error(`✅ Server running on port ${port}`);
+    console.error(`✅ Server address: ${address}`);
     fastify.log.error(err);
     process.exit(1);
   }
-  console.log(`Server running on port ${port}`);
+  console.log(`✅ Server running on port ${port}`);
+  console.log(`✅ Server address: ${address}`);
 });
