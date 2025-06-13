@@ -1,4 +1,4 @@
-import { InviteUserEmail } from "@yapyup/emails/transactional/emais/invitation-template";
+import { InviteUserEmail } from "@yapyup/emails/transactional/emails/invitation-template";
 
 function resendInvitation(data: any, inviteLink: string) {
   return {
