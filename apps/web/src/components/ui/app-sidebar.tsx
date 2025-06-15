@@ -77,11 +77,14 @@ const items = [
   },
 ];
 
-export function AppSidebar({ user }: { user: any }) {
-  const { data: activeOrganization } = authClient.useActiveOrganization();
+export function AppSidebar({
+  user,
+  organization,
+}: {
+  user: any;
+  organization: any;
+}) {
   const { data: organizations } = authClient.useListOrganizations();
-
-  const { data, isLoading } = useQuery(authQueries.activeMember());
 
   const iconRef = useRef(null);
   const layersIconRef = useRef<LayersIconHandle | null>(null);
@@ -109,7 +112,7 @@ export function AppSidebar({ user }: { user: any }) {
                   onMouseLeave={() => layersIconRef.current?.stopAnimation()}
                 >
                   <LayersIcon size={16} ref={layersIconRef} />
-                  {activeOrganization?.name}
+                  {organization?.name}
                   <ChevronsUpDown
                     className="ml-auto"
                     width="14"
@@ -121,7 +124,7 @@ export function AppSidebar({ user }: { user: any }) {
               <DropdownMenuContent className="min-w-[var(--radix-dropdown-menu-trigger-width)]">
                 {organizations &&
                   organizations.map((org) => {
-                    const isActive = org.id === activeOrganization?.id;
+                    const isActive = org.id === organization?.id;
                     return (
                       <DropdownMenuItem
                         key={org.id}
@@ -146,7 +149,7 @@ export function AppSidebar({ user }: { user: any }) {
                 <Separator className="my-2" />
                 <Link
                   to="/dashboard/org/$orgId"
-                  params={{ orgId: activeOrganization?.id || "" }}
+                  params={{ orgId: organization?.id || "" }}
                 >
                   <DropdownMenuItem className="cursor-pointer p-2">
                     <div className="flex items-center gap-2 text-sm">
@@ -208,9 +211,7 @@ export function AppSidebar({ user }: { user: any }) {
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarFallback className="rounded-lg">I</AvatarFallback>
                   </Avatar>
-                  <span className="truncate text-xs">
-                    {data?.data?.user.email}
-                  </span>
+                  <span className="truncate text-xs">{user?.email}</span>
                   <Ellipsis
                     size={18}
                     ref={iconRef}

@@ -23,6 +23,7 @@ export interface RouterAppContext {
   trpc: typeof trpc;
   queryClient: QueryClient;
   auth: ReturnType<typeof authClient.useSession> | undefined;
+  organization: ReturnType<typeof authClient.useActiveOrganization> | undefined;
 }
 
 const redirectSearchSchema = z.object({

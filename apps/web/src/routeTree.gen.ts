@@ -8,287 +8,303 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as AboutRouteImport } from "./routes/about";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as ProtectedDashboardRouteImport } from "./routes/_protected/dashboard";
-import { Route as AuthSignUpRouteImport } from "./routes/_auth/sign-up";
-import { Route as AuthSignInRouteImport } from "./routes/_auth/sign-in";
-import { Route as AuthSetOrganisationRouteImport } from "./routes/_auth/set-organisation";
-import { Route as AuthResetPasswordRouteImport } from "./routes/_auth/reset-password";
-import { Route as AuthForgotPasswordRouteImport } from "./routes/_auth/forgot-password";
-import { Route as AuthCreateOrganisationRouteImport } from "./routes/_auth/create-organisation";
-import { Route as AuthAcceptInvitationInvitationIdRouteImport } from "./routes/_auth/accept-invitation.$invitationId";
-import { Route as ProtectedDashboardOrgOrgIdIndexRouteImport } from "./routes/_protected/dashboard/org/$orgId/index";
-import { Route as ProtectedDashboardOrgOrgIdUserUserIdRouteImport } from "./routes/_protected/dashboard/org/$orgId/user/$userId";
+import { createFileRoute } from '@tanstack/react-router'
+
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
+import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
+import { Route as AuthSetOrganisationRouteImport } from './routes/_auth/set-organisation'
+import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
+import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
+import { Route as AuthCreateOrganisationRouteImport } from './routes/_auth/create-organisation'
+import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/_auth/accept-invitation.$invitationId'
+
+const ProtectedDashboardOrgOrgIdIndexLazyRouteImport = createFileRoute(
+  '/_protected/dashboard/org/$orgId/',
+)()
+const ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport = createFileRoute(
+  '/_protected/dashboard/org/$orgId/user/$userId',
+)()
 
 const AboutRoute = AboutRouteImport.update({
-  id: "/about",
-  path: "/about",
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: "/_protected/dashboard",
-  path: "/dashboard",
+  id: '/_protected/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
-  id: "/_auth/sign-up",
-  path: "/sign-up",
+  id: '/_auth/sign-up',
+  path: '/sign-up',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
-  id: "/_auth/sign-in",
-  path: "/sign-in",
+  id: '/_auth/sign-in',
+  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthSetOrganisationRoute = AuthSetOrganisationRouteImport.update({
-  id: "/_auth/set-organisation",
-  path: "/set-organisation",
+  id: '/_auth/set-organisation',
+  path: '/set-organisation',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
-  id: "/_auth/reset-password",
-  path: "/reset-password",
+  id: '/_auth/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
-  id: "/_auth/forgot-password",
-  path: "/forgot-password",
+  id: '/_auth/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthCreateOrganisationRoute = AuthCreateOrganisationRouteImport.update({
-  id: "/_auth/create-organisation",
-  path: "/create-organisation",
+  id: '/_auth/create-organisation',
+  path: '/create-organisation',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const AuthAcceptInvitationInvitationIdRoute =
   AuthAcceptInvitationInvitationIdRouteImport.update({
-    id: "/_auth/accept-invitation/$invitationId",
-    path: "/accept-invitation/$invitationId",
+    id: '/_auth/accept-invitation/$invitationId',
+    path: '/accept-invitation/$invitationId',
     getParentRoute: () => rootRouteImport,
-  } as any);
-const ProtectedDashboardOrgOrgIdIndexRoute =
-  ProtectedDashboardOrgOrgIdIndexRouteImport.update({
-    id: "/org/$orgId/",
-    path: "/org/$orgId/",
+  } as any)
+const ProtectedDashboardOrgOrgIdIndexLazyRoute =
+  ProtectedDashboardOrgOrgIdIndexLazyRouteImport.update({
+    id: '/org/$orgId/',
+    path: '/org/$orgId/',
     getParentRoute: () => ProtectedDashboardRoute,
-  } as any);
-const ProtectedDashboardOrgOrgIdUserUserIdRoute =
-  ProtectedDashboardOrgOrgIdUserUserIdRouteImport.update({
-    id: "/org/$orgId/user/$userId",
-    path: "/org/$orgId/user/$userId",
+  } as any).lazy(() =>
+    import('./routes/_protected/dashboard/org/$orgId/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ProtectedDashboardOrgOrgIdUserUserIdLazyRoute =
+  ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport.update({
+    id: '/org/$orgId/user/$userId',
+    path: '/org/$orgId/user/$userId',
     getParentRoute: () => ProtectedDashboardRoute,
-  } as any);
+  } as any).lazy(() =>
+    import('./routes/_protected/dashboard/org/$orgId/user/$userId.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/create-organisation": typeof AuthCreateOrganisationRoute;
-  "/forgot-password": typeof AuthForgotPasswordRoute;
-  "/reset-password": typeof AuthResetPasswordRoute;
-  "/set-organisation": typeof AuthSetOrganisationRoute;
-  "/sign-in": typeof AuthSignInRoute;
-  "/sign-up": typeof AuthSignUpRoute;
-  "/dashboard": typeof ProtectedDashboardRouteWithChildren;
-  "/accept-invitation/$invitationId": typeof AuthAcceptInvitationInvitationIdRoute;
-  "/dashboard/org/$orgId": typeof ProtectedDashboardOrgOrgIdIndexRoute;
-  "/dashboard/org/$orgId/user/$userId": typeof ProtectedDashboardOrgOrgIdUserUserIdRoute;
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/create-organisation': typeof AuthCreateOrganisationRoute
+  '/forgot-password': typeof AuthForgotPasswordRoute
+  '/reset-password': typeof AuthResetPasswordRoute
+  '/set-organisation': typeof AuthSetOrganisationRoute
+  '/sign-in': typeof AuthSignInRoute
+  '/sign-up': typeof AuthSignUpRoute
+  '/dashboard': typeof ProtectedDashboardRouteWithChildren
+  '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/dashboard/org/$orgId': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
+  '/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/create-organisation": typeof AuthCreateOrganisationRoute;
-  "/forgot-password": typeof AuthForgotPasswordRoute;
-  "/reset-password": typeof AuthResetPasswordRoute;
-  "/set-organisation": typeof AuthSetOrganisationRoute;
-  "/sign-in": typeof AuthSignInRoute;
-  "/sign-up": typeof AuthSignUpRoute;
-  "/dashboard": typeof ProtectedDashboardRouteWithChildren;
-  "/accept-invitation/$invitationId": typeof AuthAcceptInvitationInvitationIdRoute;
-  "/dashboard/org/$orgId": typeof ProtectedDashboardOrgOrgIdIndexRoute;
-  "/dashboard/org/$orgId/user/$userId": typeof ProtectedDashboardOrgOrgIdUserUserIdRoute;
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/create-organisation': typeof AuthCreateOrganisationRoute
+  '/forgot-password': typeof AuthForgotPasswordRoute
+  '/reset-password': typeof AuthResetPasswordRoute
+  '/set-organisation': typeof AuthSetOrganisationRoute
+  '/sign-in': typeof AuthSignInRoute
+  '/sign-up': typeof AuthSignUpRoute
+  '/dashboard': typeof ProtectedDashboardRouteWithChildren
+  '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/dashboard/org/$orgId': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
+  '/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/about": typeof AboutRoute;
-  "/_auth/create-organisation": typeof AuthCreateOrganisationRoute;
-  "/_auth/forgot-password": typeof AuthForgotPasswordRoute;
-  "/_auth/reset-password": typeof AuthResetPasswordRoute;
-  "/_auth/set-organisation": typeof AuthSetOrganisationRoute;
-  "/_auth/sign-in": typeof AuthSignInRoute;
-  "/_auth/sign-up": typeof AuthSignUpRoute;
-  "/_protected/dashboard": typeof ProtectedDashboardRouteWithChildren;
-  "/_auth/accept-invitation/$invitationId": typeof AuthAcceptInvitationInvitationIdRoute;
-  "/_protected/dashboard/org/$orgId/": typeof ProtectedDashboardOrgOrgIdIndexRoute;
-  "/_protected/dashboard/org/$orgId/user/$userId": typeof ProtectedDashboardOrgOrgIdUserUserIdRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/_auth/create-organisation': typeof AuthCreateOrganisationRoute
+  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/_auth/reset-password': typeof AuthResetPasswordRoute
+  '/_auth/set-organisation': typeof AuthSetOrganisationRoute
+  '/_auth/sign-in': typeof AuthSignInRoute
+  '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_protected/dashboard': typeof ProtectedDashboardRouteWithChildren
+  '/_auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/_protected/dashboard/org/$orgId/': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
+  '/_protected/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/about"
-    | "/create-organisation"
-    | "/forgot-password"
-    | "/reset-password"
-    | "/set-organisation"
-    | "/sign-in"
-    | "/sign-up"
-    | "/dashboard"
-    | "/accept-invitation/$invitationId"
-    | "/dashboard/org/$orgId"
-    | "/dashboard/org/$orgId/user/$userId";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/about'
+    | '/create-organisation'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/set-organisation'
+    | '/sign-in'
+    | '/sign-up'
+    | '/dashboard'
+    | '/accept-invitation/$invitationId'
+    | '/dashboard/org/$orgId'
+    | '/dashboard/org/$orgId/user/$userId'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/about"
-    | "/create-organisation"
-    | "/forgot-password"
-    | "/reset-password"
-    | "/set-organisation"
-    | "/sign-in"
-    | "/sign-up"
-    | "/dashboard"
-    | "/accept-invitation/$invitationId"
-    | "/dashboard/org/$orgId"
-    | "/dashboard/org/$orgId/user/$userId";
+    | '/'
+    | '/about'
+    | '/create-organisation'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/set-organisation'
+    | '/sign-in'
+    | '/sign-up'
+    | '/dashboard'
+    | '/accept-invitation/$invitationId'
+    | '/dashboard/org/$orgId'
+    | '/dashboard/org/$orgId/user/$userId'
   id:
-    | "__root__"
-    | "/"
-    | "/about"
-    | "/_auth/create-organisation"
-    | "/_auth/forgot-password"
-    | "/_auth/reset-password"
-    | "/_auth/set-organisation"
-    | "/_auth/sign-in"
-    | "/_auth/sign-up"
-    | "/_protected/dashboard"
-    | "/_auth/accept-invitation/$invitationId"
-    | "/_protected/dashboard/org/$orgId/"
-    | "/_protected/dashboard/org/$orgId/user/$userId";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/_auth/create-organisation'
+    | '/_auth/forgot-password'
+    | '/_auth/reset-password'
+    | '/_auth/set-organisation'
+    | '/_auth/sign-in'
+    | '/_auth/sign-up'
+    | '/_protected/dashboard'
+    | '/_auth/accept-invitation/$invitationId'
+    | '/_protected/dashboard/org/$orgId/'
+    | '/_protected/dashboard/org/$orgId/user/$userId'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AboutRoute: typeof AboutRoute;
-  AuthCreateOrganisationRoute: typeof AuthCreateOrganisationRoute;
-  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute;
-  AuthResetPasswordRoute: typeof AuthResetPasswordRoute;
-  AuthSetOrganisationRoute: typeof AuthSetOrganisationRoute;
-  AuthSignInRoute: typeof AuthSignInRoute;
-  AuthSignUpRoute: typeof AuthSignUpRoute;
-  ProtectedDashboardRoute: typeof ProtectedDashboardRouteWithChildren;
-  AuthAcceptInvitationInvitationIdRoute: typeof AuthAcceptInvitationInvitationIdRoute;
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AuthCreateOrganisationRoute: typeof AuthCreateOrganisationRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
+  AuthSetOrganisationRoute: typeof AuthSetOrganisationRoute
+  AuthSignInRoute: typeof AuthSignInRoute
+  AuthSignUpRoute: typeof AuthSignUpRoute
+  ProtectedDashboardRoute: typeof ProtectedDashboardRouteWithChildren
+  AuthAcceptInvitationInvitationIdRoute: typeof AuthAcceptInvitationInvitationIdRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/about": {
-      id: "/about";
-      path: "/about";
-      fullPath: "/about";
-      preLoaderRoute: typeof AboutRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_protected/dashboard": {
-      id: "/_protected/dashboard";
-      path: "/dashboard";
-      fullPath: "/dashboard";
-      preLoaderRoute: typeof ProtectedDashboardRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/sign-up": {
-      id: "/_auth/sign-up";
-      path: "/sign-up";
-      fullPath: "/sign-up";
-      preLoaderRoute: typeof AuthSignUpRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/sign-in": {
-      id: "/_auth/sign-in";
-      path: "/sign-in";
-      fullPath: "/sign-in";
-      preLoaderRoute: typeof AuthSignInRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/set-organisation": {
-      id: "/_auth/set-organisation";
-      path: "/set-organisation";
-      fullPath: "/set-organisation";
-      preLoaderRoute: typeof AuthSetOrganisationRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/reset-password": {
-      id: "/_auth/reset-password";
-      path: "/reset-password";
-      fullPath: "/reset-password";
-      preLoaderRoute: typeof AuthResetPasswordRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/forgot-password": {
-      id: "/_auth/forgot-password";
-      path: "/forgot-password";
-      fullPath: "/forgot-password";
-      preLoaderRoute: typeof AuthForgotPasswordRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/create-organisation": {
-      id: "/_auth/create-organisation";
-      path: "/create-organisation";
-      fullPath: "/create-organisation";
-      preLoaderRoute: typeof AuthCreateOrganisationRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_auth/accept-invitation/$invitationId": {
-      id: "/_auth/accept-invitation/$invitationId";
-      path: "/accept-invitation/$invitationId";
-      fullPath: "/accept-invitation/$invitationId";
-      preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/_protected/dashboard/org/$orgId/": {
-      id: "/_protected/dashboard/org/$orgId/";
-      path: "/org/$orgId";
-      fullPath: "/dashboard/org/$orgId";
-      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdIndexRouteImport;
-      parentRoute: typeof ProtectedDashboardRoute;
-    };
-    "/_protected/dashboard/org/$orgId/user/$userId": {
-      id: "/_protected/dashboard/org/$orgId/user/$userId";
-      path: "/org/$orgId/user/$userId";
-      fullPath: "/dashboard/org/$orgId/user/$userId";
-      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdRouteImport;
-      parentRoute: typeof ProtectedDashboardRoute;
-    };
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ProtectedDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/sign-up': {
+      id: '/_auth/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/sign-in': {
+      id: '/_auth/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/set-organisation': {
+      id: '/_auth/set-organisation'
+      path: '/set-organisation'
+      fullPath: '/set-organisation'
+      preLoaderRoute: typeof AuthSetOrganisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/reset-password': {
+      id: '/_auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/forgot-password': {
+      id: '/_auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/create-organisation': {
+      id: '/_auth/create-organisation'
+      path: '/create-organisation'
+      fullPath: '/create-organisation'
+      preLoaderRoute: typeof AuthCreateOrganisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/accept-invitation/$invitationId': {
+      id: '/_auth/accept-invitation/$invitationId'
+      path: '/accept-invitation/$invitationId'
+      fullPath: '/accept-invitation/$invitationId'
+      preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_protected/dashboard/org/$orgId/': {
+      id: '/_protected/dashboard/org/$orgId/'
+      path: '/org/$orgId'
+      fullPath: '/dashboard/org/$orgId'
+      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdIndexLazyRouteImport
+      parentRoute: typeof ProtectedDashboardRoute
+    }
+    '/_protected/dashboard/org/$orgId/user/$userId': {
+      id: '/_protected/dashboard/org/$orgId/user/$userId'
+      path: '/org/$orgId/user/$userId'
+      fullPath: '/dashboard/org/$orgId/user/$userId'
+      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport
+      parentRoute: typeof ProtectedDashboardRoute
+    }
   }
 }
 
 interface ProtectedDashboardRouteChildren {
-  ProtectedDashboardOrgOrgIdIndexRoute: typeof ProtectedDashboardOrgOrgIdIndexRoute;
-  ProtectedDashboardOrgOrgIdUserUserIdRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdRoute;
+  ProtectedDashboardOrgOrgIdIndexLazyRoute: typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
+  ProtectedDashboardOrgOrgIdUserUserIdLazyRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
 }
 
 const ProtectedDashboardRouteChildren: ProtectedDashboardRouteChildren = {
-  ProtectedDashboardOrgOrgIdIndexRoute: ProtectedDashboardOrgOrgIdIndexRoute,
-  ProtectedDashboardOrgOrgIdUserUserIdRoute:
-    ProtectedDashboardOrgOrgIdUserUserIdRoute,
-};
+  ProtectedDashboardOrgOrgIdIndexLazyRoute:
+    ProtectedDashboardOrgOrgIdIndexLazyRoute,
+  ProtectedDashboardOrgOrgIdUserUserIdLazyRoute:
+    ProtectedDashboardOrgOrgIdUserUserIdLazyRoute,
+}
 
 const ProtectedDashboardRouteWithChildren =
-  ProtectedDashboardRoute._addFileChildren(ProtectedDashboardRouteChildren);
+  ProtectedDashboardRoute._addFileChildren(ProtectedDashboardRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -301,7 +317,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignUpRoute: AuthSignUpRoute,
   ProtectedDashboardRoute: ProtectedDashboardRouteWithChildren,
   AuthAcceptInvitationInvitationIdRoute: AuthAcceptInvitationInvitationIdRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

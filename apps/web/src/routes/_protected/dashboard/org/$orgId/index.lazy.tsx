@@ -1,8 +1,8 @@
 import {
-  createFileRoute,
   Link,
   useParams,
   useRouteContext,
+  createLazyFileRoute,
 } from "@tanstack/react-router";
 import { EditIcon, Ellipsis, LogOut } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -24,7 +24,7 @@ import {
 import { InvitationDialog } from "@/components/invitation-dialog";
 import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
-import { LogoutIcon } from "@/components/ui/logout";
+import { LogoutIcon, type LogoutIconHandle } from "@/components/ui/logout";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,28 +33,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_protected/dashboard/org/$orgId/")({
+export const Route = createLazyFileRoute("/_protected/dashboard/org/$orgId/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const queryClient = useRouteContext({
+  const { queryClient, organization } = useRouteContext({
     from: "/_protected/dashboard/org/$orgId/",
-    select: (context) => context.queryClient,
+    select: (context) => context,
   });
 
-  const { data: activeOrganization } = authClient.useActiveOrganization();
   const params = useParams({ from: "/_protected/dashboard/org/$orgId/" });
-  const { data, isLoading } = useQuery(
-    authQueries.fullOrganization(params.orgId),
-  );
 
   const [org, setOrg] = useState<any>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const logoutRef = useRef(null);
+  const logoutRef = useRef<LogoutIconHandle | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrg({ ...org, [e.target.name]: e.target.value });
@@ -72,10 +68,6 @@ function RouteComponent() {
         {error}
       </div>
     );
-  }
-
-  if (!activeOrganization) {
-    return null;
   }
 
   async function cancelInvitation(e: any, invitationId: string) {
@@ -155,15 +147,15 @@ function RouteComponent() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="mb-6 flex items-center gap-6">
                   {/* Avatar */}
-                  {activeOrganization?.logo_url ? (
+                  {organization?.data?.logo ? (
                     <img
-                      src={activeOrganization?.logo_url}
+                      src={organization?.data?.logo}
                       alt="Logo"
                       className="h-16 w-16 rounded-lg border object-cover"
                     />
                   ) : (
                     <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-gradient-to-br from-purple-700 to-purple-400 text-3xl font-bold text-white">
-                      {activeOrganization.name?.[0]?.toUpperCase() || "I"}
+                      {organization?.data?.name?.[0]?.toUpperCase() || "I"}
                     </div>
                   )}
                   <Button type="button" variant="outline" className="h-9">
@@ -175,7 +167,7 @@ function RouteComponent() {
                   <Input
                     id="name"
                     name="name"
-                    value={activeOrganization.name || ""}
+                    value={organization?.data?.name || ""}
                     onChange={handleChange}
                     required
                     className="mt-2 capitalize"
@@ -205,7 +197,7 @@ function RouteComponent() {
               </Button>
             </CardHeader>
             <CardContent>
-              {isLoading && !data ? (
+              {organization?.isPending && !organization?.data ? (
                 <div className="space-y-2">
                   {[...Array(2)].map((_, i) => (
                     <div className="flex space-x-8" key={i}>
@@ -226,7 +218,7 @@ function RouteComponent() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.data?.members.map((member) => (
+                    {organization?.data?.members.map((member) => (
                       <tr key={member.id}>
                         <td className="py-2">{member.user.email}</td>
                         <td className="py-2">
@@ -265,7 +257,7 @@ function RouteComponent() {
               <CardTitle>Invitations</CardTitle>
             </CardHeader>
             <CardContent>
-              {isLoading && !data ? (
+              {organization?.isPending && !organization?.data ? (
                 <div className="space-y-2">
                   {[...Array(2)].map((_, i) => (
                     <div className="flex space-x-8" key={i}>
@@ -285,7 +277,7 @@ function RouteComponent() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.data?.invitations?.map((invitee) => {
+                    {organization?.data?.invitations?.map((invitee) => {
                       if (invitee.status === "pending") {
                         return (
                           <tr key={invitee.id} className="">

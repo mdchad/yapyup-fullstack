@@ -1,7 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { createFileRoute, Link, useRouterState } from "@tanstack/react-router";
+import {
+  Link,
+  useRouterState,
+  createLazyFileRoute,
+  useRouteContext,
+} from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { EditIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
@@ -9,21 +14,17 @@ import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export const Route = createFileRoute(
+export const Route = createLazyFileRoute(
   "/_protected/dashboard/org/$orgId/user/$userId",
 )({
   component: RouteComponent,
-  // loader: async ({ params, context }) => {
-  //   const member = await authClient.organization.getActiveMember()
-  //
-  //   return member?.data?.user
-  // },
 });
 
 function RouteComponent() {
-  // const user = Route.useLoaderData()
-  const { data, isLoading } = useQuery(authQueries.activeMember());
-
+  const auth = useRouteContext({
+    from: "/_protected/dashboard/org/$orgId/user/$userId",
+    select: (context) => context.auth,
+  });
   async function handleSubmit(e: any) {
     e.preventDefault();
   }
@@ -49,7 +50,7 @@ function RouteComponent() {
                     <Input
                       id="name"
                       name="name"
-                      value={data?.data?.user.name || ""}
+                      value={auth?.data?.user.name || ""}
                       onChange={handleChange}
                       required
                     />
@@ -60,7 +61,7 @@ function RouteComponent() {
                       <Input
                         id="email"
                         name="email"
-                        value={data?.data?.user.email || ""}
+                        value={auth?.data?.user.email || ""}
                         onChange={handleChange}
                         required
                       />

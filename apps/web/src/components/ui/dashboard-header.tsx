@@ -11,8 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuthContext } from "@/lib/auth/use-auth-context";
-import { supabase } from "@/lib/supabase/client";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { LogoutIcon } from "@/components/ui/logout";
 
@@ -70,9 +68,9 @@ const DashboardHeader = () => {
   //   fetchOrganisation()
   // }, [user])
 
-  async function handleSignOut() {
-    await supabase.auth.signOut();
-  }
+  // async function handleSignOut() {
+  //   await supabase.auth.signOut();
+  // }
 
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-2 z-50">
@@ -87,27 +85,27 @@ const DashboardHeader = () => {
             {/*</Avatar>*/}
             <div className="text-gray-300">/</div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="px-2 font-medium flex items-center gap-1"
-                >
-                  {loading ? "Loading..." : org?.organisations.name}
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <Link href={`/dashboard/org/${org?.organisation_id}`}>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                </Link>
-                <DropdownMenuItem>Personal</DropdownMenuItem>
-                {/*<DropdownMenuItem>Team Space</DropdownMenuItem>*/}
-                {/*<DropdownMenuItem>Enterprise</DropdownMenuItem>*/}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Create Organization</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/*<DropdownMenu>*/}
+            {/*  <DropdownMenuTrigger asChild>*/}
+            {/*    <Button*/}
+            {/*      variant="ghost"*/}
+            {/*      className="px-2 font-medium flex items-center gap-1"*/}
+            {/*    >*/}
+            {/*      {loading ? "Loading..." : org?.organisations.name}*/}
+            {/*      <ChevronDown className="h-4 w-4" />*/}
+            {/*    </Button>*/}
+            {/*  </DropdownMenuTrigger>*/}
+            {/*  <DropdownMenuContent>*/}
+            {/*    <Link href={`/dashboard/org/${org?.organisation_id}`}>*/}
+            {/*      <DropdownMenuItem>Settings</DropdownMenuItem>*/}
+            {/*    </Link>*/}
+            {/*    <DropdownMenuItem>Personal</DropdownMenuItem>*/}
+            {/*    /!*<DropdownMenuItem>Team Space</DropdownMenuItem>*!/*/}
+            {/*    /!*<DropdownMenuItem>Enterprise</DropdownMenuItem>*!/*/}
+            {/*    <DropdownMenuSeparator />*/}
+            {/*    <DropdownMenuItem>Create Organization</DropdownMenuItem>*/}
+            {/*  </DropdownMenuContent>*/}
+            {/*</DropdownMenu>*/}
           </div>
 
           {/*<div className="text-gray-300">/</div>*/}

@@ -7,6 +7,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, trpc } from "./utils/trpc";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "@/providers/auth-provider";
+import { authClient } from "@/lib/auth-client";
+import { OrgProvider, useOrg } from "@/providers/org-provider";
 
 export const router = createRouter({
   routeTree,
@@ -16,6 +18,7 @@ export const router = createRouter({
     trpc,
     queryClient,
     auth: undefined,
+    organization: undefined,
   },
   defaultNotFoundComponent: () => {
     return (
@@ -40,12 +43,19 @@ declare module "@tanstack/react-router" {
 
 export const App = () => {
   const auth = useAuth();
+  const organization = useOrg();
+
+  useEffect(() => {
+    if (!organization.isPending && organization.data) {
+      router.invalidate();
+    }
+  }, [organization.isPending, organization.data]);
 
   useEffect(() => {
     router.invalidate();
   }, [auth?.data?.session.id]);
 
-  return <RouterProvider router={router} context={{ auth }} />;
+  return <RouterProvider router={router} context={{ auth, organization }} />;
 };
 
 const rootElement = document.getElementById("app")!;
@@ -54,7 +64,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <AuthProvider>
-      <App />
+      <OrgProvider>
+        <App />
+      </OrgProvider>
     </AuthProvider>,
   );
 }
