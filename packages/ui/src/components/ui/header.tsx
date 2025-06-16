@@ -7,9 +7,9 @@ import {
   NavigationMenuTrigger,
 } from "./navigation-menu";
 import { Button } from "./button";
-import { Link } from "@tanstack/react-router";
+// import { Link } from "@tanstack/react-router";
 
-export function Header({ isAuthenticated }: { isAuthenticated: any }) {
+export function Header({ isAuthenticated }: { isAuthenticated?: any }) {
   return (
     <div
       className={
@@ -18,29 +18,31 @@ export function Header({ isAuthenticated }: { isAuthenticated: any }) {
     >
       <div className="mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <span className="text-2xl">🔥</span>
-          <span className="text-xl font-bold">YapYup</span>
-        </div>
+        <a href="/">
+          <div className="flex items-center space-x-2">
+            <span className="text-2xl">🔥</span>
+            <span className="text-xl font-bold">YapYup</span>
+          </div>
+        </a>
 
         {/* Navigation - Center aligned as in screenshot */}
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList className="flex gap-8">
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/dashboard"
+                href="/about"
                 className="text-gray-700 hover:text-gray-900 transition-colors text-sm font-medium"
               >
-                Dashboard
+                About
               </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/docs"
+                href="/features"
                 className="text-gray-700 hover:text-gray-900 transition-colors text-sm font-medium"
               >
-                Docs
+                Features
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -122,17 +124,17 @@ export function Header({ isAuthenticated }: { isAuthenticated: any }) {
 
         {/* Sign Up Button */}
         {isAuthenticated ? (
-          <Link to={"/dashboard"}>
+          <a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/dashboard`}>
             <Button className="cursor-pointer rounded-lg bg-purple-200 text-black hover:text-black hover:bg-purple-100">
               Dashboard
             </Button>
-          </Link>
+          </a>
         ) : (
-          <Link to={"/sign-in"}>
+          <a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/sign-in`}>
             <Button className="cursor-pointer rounded-lg bg-white text-black hover:text-black hover:bg-gray-100 border border-gray-200 shadow-sm">
               Sign In
             </Button>
-          </Link>
+          </a>
         )}
       </div>
     </div>

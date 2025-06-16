@@ -32,7 +32,7 @@
   "scripts": {
     "prepare": "husky",
     "dev": "turbo dev",
-    "dev:webapp": "turbo -F web -F server dev",
+    "dev:webapp": "turbo -F web -F server -F marketing dev",
     "build": "turbo build",
     "build:web": "turbo -F web build",
     "check-types": "turbo check-types",

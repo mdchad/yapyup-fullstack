@@ -11,13 +11,15 @@ import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/_protected/dashboard")({
   component: Dashboard,
-  loader: (ctx) => console.log(ctx.context),
 });
 
 function Dashboard() {
   const { auth, organization } = useRouteContext({
     from: "/_protected/dashboard",
-    select: (context) => context,
+    select: (context) => ({
+      auth: context.auth as ReturnType<typeof authClient.useSession>,
+      organization: context.organization,
+    }),
   });
 
   const { data: organizations } = authClient.useListOrganizations();
@@ -29,6 +31,10 @@ function Dashboard() {
       console.log("err", error);
       toast.error("Error logging out. Please try again", {});
     }
+  }
+
+  if (auth.isPending) {
+    return;
   }
 
   return (

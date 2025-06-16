@@ -1,0 +1,6 @@
+name = "yapyup-marketing"
+compatibility_date = "2025-06-12"
+route = "yapyup.com/*"
+
+[assets]
+directory = "./dist/"

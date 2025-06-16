@@ -36,8 +36,8 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     const isAuthenticated = !!context.auth?.data?.session?.id;
     const isPending = context.auth?.isPending;
 
-    // const isAuthenticated = !!session?.user
     const isDashboardRoute = location.pathname.startsWith("/dashboard");
+
     const isDashboardRedirectRoute =
       location &&
       location.search &&
@@ -64,8 +64,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   },
   component: RootComponent,
   errorComponent: ({ error }) => {
-    console.error("route error:", error);
-    console.error("HOIII");
     return <div>Route Error: {error.message}</div>;
   },
 });

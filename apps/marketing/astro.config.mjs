@@ -1,6 +1,9 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
+import icon from "astro-icon";
 
 import react from "@astrojs/react";
 
@@ -10,5 +13,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   site: "https://www.yapyup.com",
-  integrations: [react()],
+  integrations: [mdx(), sitemap(), icon(), react()],
 });
