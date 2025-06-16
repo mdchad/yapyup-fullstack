@@ -1,6 +1,10 @@
 name = "yapyup-marketing"
 compatibility_date = "2025-06-12"
-route = "yapyup.com/*"
+route = [
+    "yapyup.com/*",
+    "www.yapyup.com/*"
+]
 
 [assets]
 directory = "./dist/"
+not_found_handling = "404-page"
