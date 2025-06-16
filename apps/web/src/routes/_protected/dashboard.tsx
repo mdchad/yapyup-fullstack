@@ -3,10 +3,9 @@ import {
   Outlet,
   useRouteContext,
 } from "@tanstack/react-router";
-// import DashboardHeader from "@/components/ui/dashboard-header";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/ui/app-sidebar";
-import DashboardHeader from "@/components/ui/dashboard-header";
+import { SidebarProvider } from "@repo/ui/sidebar";
+import { AppSidebar } from "@repo/ui/app-sidebar";
+import DashboardHeader from "@repo/ui/dashboard-header";
 
 export const Route = createFileRoute("/_protected/dashboard")({
   component: Dashboard,

@@ -1,19 +1,19 @@
 import { useState, useRef, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "@repo/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@repo/ui/card";
+import { Input } from "@repo/ui/input";
+import { Label } from "@repo/ui/label";
 import { Link, useNavigate, useRouteContext } from "@tanstack/react-router";
 import { authClient } from "@/lib/auth-client";
 import { CheckCircle, LoaderCircle, AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@repo/ui/alert";
 import { motion, AnimatePresence } from "framer-motion";
 import useMeasure from "react-use-measure";
 

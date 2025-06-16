@@ -1,18 +1,18 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, LogOutIcon, Menu, Search, Settings } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
+import { Button } from "@repo/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@repo/ui/avatar";
+import { Input } from "@repo/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { LogoutIcon } from "@/components/ui/logout";
+} from "@repo/ui/dropdown-menu";
+import { SidebarTrigger } from "@repo/ui/sidebar";
+import { LogoutIcon } from "@repo/ui/logout";
 
 type Organisation = {
   organisation_id: string;

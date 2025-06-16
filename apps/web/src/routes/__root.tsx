@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@repo/ui/sonner";
 import { queryClient, type trpc } from "@/utils/trpc";
 import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -13,7 +13,7 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import "../index.css";
+import "@repo/ui/globals.css";
 import { authClient } from "@/lib/auth-client";
 import { useEffect } from "react";
 import { router } from "@/main";

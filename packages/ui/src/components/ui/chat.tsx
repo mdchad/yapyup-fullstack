@@ -9,13 +9,13 @@ import { ArrowDown, ThumbsDown, ThumbsUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
-import { Button } from "@/components/ui/button";
-import { type Message } from "@/components/ui/chat-message";
-import { CopyButton } from "@/components/ui/copy-button";
-import { MessageInput } from "@/components/ui/message-input";
-import { MessageList } from "@/components/ui/message-list";
-import { PromptSuggestions } from "@/components/ui/prompt-suggestions";
-import { DiagramButton } from "@/components/ui/diagram-button";
+import { Button } from "@repo/ui/button";
+import { type Message } from "@repo/ui/chat-message";
+import { CopyButton } from "@repo/ui/copy-button";
+import { MessageInput } from "@repo/ui/message-input";
+import { MessageList } from "@repo/ui/message-list";
+import { PromptSuggestions } from "@repo/ui/prompt-suggestions";
+import { DiagramButton } from "@repo/ui/diagram-button";
 
 interface ChatPropsBase {
   handleSubmit: (

@@ -1,6 +1,6 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Input } from "@repo/ui/input";
+import { Button } from "@repo/ui/button";
+import { Label } from "@repo/ui/label";
 import {
   Link,
   useRouterState,
@@ -12,7 +12,7 @@ import { EditIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
 export const Route = createLazyFileRoute(
   "/_protected/dashboard/org/$orgId/user/$userId",

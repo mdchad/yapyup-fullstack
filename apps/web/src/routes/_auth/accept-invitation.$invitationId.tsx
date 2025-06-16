@@ -13,8 +13,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@repo/ui/card";
+import { Button } from "@repo/ui/button";
 import { authClient } from "@/lib/auth-client";
 import {
   Stepper,
@@ -23,7 +23,7 @@ import {
   StepperSeparator,
   StepperTitle,
   StepperTrigger,
-} from "@/components/ui/stepper";
+} from "@repo/ui/stepper";
 import { useState } from "react";
 import { z } from "zod";
 import { SignUpForm } from "@/components/sign-up-form";

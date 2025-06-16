@@ -23,11 +23,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+} from "@repo/ui/sidebar";
+import { DropdownMenuContent, DropdownMenuItem } from "@repo/ui/dropdown-menu";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -37,13 +34,13 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from "@repo/ui/collapsible";
 import { useRef } from "react";
-import { LayersIcon, type LayersIconHandle } from "@/components/ui/layers";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { LayersIcon, type LayersIconHandle } from "@repo/ui/layers";
+import { Avatar, AvatarFallback } from "@repo/ui/avatar";
 import { authClient } from "@/lib/auth-client";
-import { Separator } from "@/components/ui/separator";
-import { CheckIcon, type CheckIconHandle } from "@/components/ui/check";
+import { Separator } from "@repo/ui/separator";
+import { CheckIcon, type CheckIconHandle } from "@repo/ui/check";
 import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
 import { toast } from "sonner";

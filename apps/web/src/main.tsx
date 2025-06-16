@@ -7,7 +7,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, trpc } from "./utils/trpc";
 import { useEffect } from "react";
 import { AuthProvider, useAuth } from "@/providers/auth-provider";
-import { authClient } from "@/lib/auth-client";
 import { OrgProvider, useOrg } from "@/providers/org-provider";
 
 export const router = createRouter({

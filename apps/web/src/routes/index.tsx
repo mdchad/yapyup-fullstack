@@ -1,7 +1,7 @@
 // import SignUp from '@/components/sign-up-form'
 import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Header } from "@/components/ui/header";
+import { Header } from "@repo/ui/header";
 import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
 

@@ -1,6 +1,6 @@
-import { Separator } from "@/components/ui/separator";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@repo/ui/separator";
+import { Progress } from "@repo/ui/progress";
+import { Avatar, AvatarFallback } from "@repo/ui/avatar";
 
 export default function NotesSidebar() {
   return (

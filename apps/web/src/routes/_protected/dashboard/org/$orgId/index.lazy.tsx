@@ -6,31 +6,20 @@ import {
 } from "@tanstack/react-router";
 import { EditIcon, Ellipsis, LogOut } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Skeleton } from "@/components/ui/skeleton";
-import { XIcon } from "@/components/ui/x";
+import { Input } from "@repo/ui/input";
+import { Button } from "@repo/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
+import { Label } from "@repo/ui/label";
+import { Skeleton } from "@repo/ui/skeleton";
 import { authClient } from "@/lib/auth-client";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { InvitationDialog } from "@/components/invitation-dialog";
-import { useQuery } from "@tanstack/react-query";
-import { authQueries } from "@/lib/queries/auth";
-import { LogoutIcon, type LogoutIconHandle } from "@/components/ui/logout";
+import { LogoutIcon, type LogoutIconHandle } from "@repo/ui/logout";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@repo/ui/dropdown-menu";
 import { toast } from "sonner";
 
 export const Route = createLazyFileRoute("/_protected/dashboard/org/$orgId/")({
