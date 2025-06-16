@@ -38,7 +38,6 @@ import {
 import { useRef } from "react";
 import { LayersIcon, type LayersIconHandle } from "./layers";
 import { Avatar, AvatarFallback } from "./avatar";
-import { authClient } from "@/lib/auth-client";
 import { Separator } from "./separator";
 import { CheckIcon, type CheckIconHandle } from "./check";
 import { toast } from "sonner";
@@ -75,25 +74,17 @@ const items = [
 export function AppSidebar({
   user,
   organization,
+  organizations,
+  handleSignOut,
 }: {
   user: any;
   organization: any;
+  organizations: any;
+  handleSignOut: any;
 }) {
-  const { data: organizations } = authClient.useListOrganizations();
-
   const iconRef = useRef(null);
   const layersIconRef = useRef<LayersIconHandle | null>(null);
   const checkIconRef = useRef<CheckIconHandle | null>(null);
-
-  async function handleSignOut() {
-    try {
-      await authClient.signOut();
-    } catch (error) {
-      console.log("err", error);
-      toast.error("Error logging out. Please try again", {});
-    }
-  }
-
   return (
     <Sidebar collapsible="icon" className="bg-slate-50/60">
       <SidebarHeader>
@@ -118,7 +109,7 @@ export function AppSidebar({
               </DropdownMenuTrigger>
               <DropdownMenuContent className="min-w-[var(--radix-dropdown-menu-trigger-width)]">
                 {organizations &&
-                  organizations.map((org) => {
+                  organizations.map((org: any) => {
                     const isActive = org.id === organization?.id;
                     return (
                       <DropdownMenuItem
