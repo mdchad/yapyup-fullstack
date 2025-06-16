@@ -2,8 +2,8 @@ import {
   ChatMessage,
   type ChatMessageProps,
   type Message,
-} from "@repo/ui/chat-message";
-import { TypingIndicator } from "@repo/ui/typing-indicator";
+} from "./chat-message";
+import { TypingIndicator } from "./typing-indicator";
 
 type AdditionalMessageOptions = Omit<ChatMessageProps, keyof Message>;
 

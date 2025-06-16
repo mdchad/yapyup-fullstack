@@ -2,7 +2,7 @@ import { Check, Copy, SplinePointer } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { Button } from "@repo/ui/button";
+import { Button } from "./button";
 
 type CopyButtonProps = {
   content: string;

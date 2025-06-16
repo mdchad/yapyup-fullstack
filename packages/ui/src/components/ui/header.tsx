@@ -5,8 +5,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@repo/ui/navigation-menu";
-import { Button } from "@repo/ui/button";
+} from "./navigation-menu";
+import { Button } from "./button";
 import { Link } from "@tanstack/react-router";
 
 export function Header({ isAuthenticated }: { isAuthenticated: any }) {

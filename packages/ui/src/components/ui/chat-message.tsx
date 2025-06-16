@@ -8,9 +8,9 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@repo/ui/collapsible";
-import { FilePreview } from "@repo/ui/file-preview";
-import { MarkdownRenderer } from "@repo/ui/markdown-renderer";
+} from "./collapsible";
+import { FilePreview } from "./file-preview";
+import { MarkdownRenderer } from "./markdown-renderer";
 
 const chatBubbleVariants = cva(
   "group/message relative break-words rounded-lg p-3 text-sm sm:max-w-[70%]",

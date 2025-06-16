@@ -3,7 +3,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { cn } from "@/lib/utils";
-import { CopyButton } from "@repo/ui/copy-button";
+import { CopyButton } from "./copy-button";
 
 interface MarkdownRendererProps {
   children: string;

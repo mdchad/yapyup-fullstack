@@ -23,8 +23,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@repo/ui/sidebar";
-import { DropdownMenuContent, DropdownMenuItem } from "@repo/ui/dropdown-menu";
+} from "./sidebar";
+import { DropdownMenuContent, DropdownMenuItem } from "./dropdown-menu";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -34,15 +34,13 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@repo/ui/collapsible";
+} from "./collapsible";
 import { useRef } from "react";
-import { LayersIcon, type LayersIconHandle } from "@repo/ui/layers";
-import { Avatar, AvatarFallback } from "@repo/ui/avatar";
+import { LayersIcon, type LayersIconHandle } from "./layers";
+import { Avatar, AvatarFallback } from "./avatar";
 import { authClient } from "@/lib/auth-client";
-import { Separator } from "@repo/ui/separator";
-import { CheckIcon, type CheckIconHandle } from "@repo/ui/check";
-import { useQuery } from "@tanstack/react-query";
-import { authQueries } from "@/lib/queries/auth";
+import { Separator } from "./separator";
+import { CheckIcon, type CheckIconHandle } from "./check";
 import { toast } from "sonner";
 
 // Menu items.
