@@ -1,8 +1,8 @@
 name = "yapyup-marketing"
 compatibility_date = "2025-06-12"
-route = [
-    "yapyup.com/*",
-    "www.yapyup.com/*"
+routes = [
+    { pattern = "yapyup.com/*", zone_name = "yapyup.com" },
+    { pattern = "www.yapyup.com/*", zone_name = "yapyup.com" }
 ]
 
 [assets]
