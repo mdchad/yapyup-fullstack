@@ -44,6 +44,7 @@
     "db:generate": "turbo -F server db:generate",
     "db:migrate": "turbo -F server db:migrate",
     "deploy:web": "turbo -F web deploy",
+    "deploy:marketing": "turbo -F marketing deploy",
     "clean": "rm -rf bun.lock node_modules apps/web/node_modules apps/server/node_modules "
   },
   "dependencies": {},
