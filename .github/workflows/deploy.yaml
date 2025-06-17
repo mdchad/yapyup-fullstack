@@ -57,7 +57,7 @@ jobs:
       - name: Deploy dashboard to Cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: bun run deploy:web
+        run: CLOUDFLARE_API_TOKEN=$CLOUDFLARE_API_TOKEN bun run deploy:web
 
   # Deploy Marketing
   deploy-marketing:
@@ -77,10 +77,7 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Check secrets
-        run: echo ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
       - name: Deploy marketing to Cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: bun run deploy:marketing
+        run: CLOUDFLARE_API_TOKEN=$CLOUDFLARE_API_TOKEN bun run deploy:marketing
