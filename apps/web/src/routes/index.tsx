@@ -24,8 +24,6 @@ function Dashboard() {
 
   const { data: organizations } = authClient.useListOrganizations();
 
-  console.log("organizations", organizations);
-
   async function handleSignOut() {
     try {
       await authClient.signOut();

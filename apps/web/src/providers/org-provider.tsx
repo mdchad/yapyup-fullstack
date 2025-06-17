@@ -1,14 +1,22 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import Loader from "@/components/loader";
+import { useAuth } from "./auth-provider";
 
 const OrgContext = createContext<
   ReturnType<typeof authClient.useActiveOrganization> | undefined
 >(undefined);
 
 export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
+  const auth = useAuth();
   const organization = authClient.useActiveOrganization();
-  console.log("provider org", organization);
+
+  useEffect(() => {
+    if (auth?.data?.session?.id) {
+      // Force refetch organization data when auth state changes
+      organization.refetch();
+    }
+  }, [auth?.data?.session?.id]);
 
   return (
     <OrgContext.Provider value={organization}>{children}</OrgContext.Provider>
@@ -18,7 +26,7 @@ export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
 export function useOrg() {
   const context = useContext(OrgContext);
   if (context === undefined) {
-    throw new Error("useOrg must be used within an AuthProvider");
+    throw new Error("useOrg must be used within an OrgProvider");
   }
   return context;
 }

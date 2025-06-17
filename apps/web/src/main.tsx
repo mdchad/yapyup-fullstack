@@ -44,18 +44,15 @@ export const App = () => {
   const organization = useOrg();
 
   useEffect(() => {
-    if (
-      !organization.isPending &&
-      organization.data &&
-      auth?.data?.session?.id
-    ) {
+    if (!organization.isPending && !auth.isPending) {
       router.invalidate();
     }
-  }, [organization.isPending, organization.data]);
-
-  useEffect(() => {
-    router.invalidate();
-  }, [auth?.data?.session.id]);
+  }, [
+    organization.isPending,
+    auth.isPending,
+    organization.data,
+    auth?.data?.session?.id,
+  ]);
 
   return <RouterProvider router={router} context={{ auth, organization }} />;
 };

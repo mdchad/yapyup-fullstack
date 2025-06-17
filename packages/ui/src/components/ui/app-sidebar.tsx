@@ -82,11 +82,6 @@ export function AppSidebar({
   organizations: any;
   handleSignOut: any;
 }) {
-  console.log({
-    user,
-    organization,
-    organizations,
-  });
   const iconRef = useRef(null);
   const layersIconRef = useRef<LayersIconHandle | null>(null);
   const checkIconRef = useRef<CheckIconHandle | null>(null);

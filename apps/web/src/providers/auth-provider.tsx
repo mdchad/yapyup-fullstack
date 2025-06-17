@@ -8,8 +8,6 @@ const AuthContext = createContext<
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const session = authClient.useSession();
 
-  console.log("provider auth", session);
-
   return (
     <AuthContext.Provider value={session}>{children}</AuthContext.Provider>
   );

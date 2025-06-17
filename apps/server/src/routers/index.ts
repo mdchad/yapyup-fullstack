@@ -11,7 +11,6 @@ export const appRouter = router({
     const lastSession = await db
       .select({ activeOrganizationId: schema.session.activeOrganizationId })
       .from(schema.session);
-    console.log(lastSession);
     return "OK";
   }),
   privateData: protectedProcedure.query(({ ctx }) => {
