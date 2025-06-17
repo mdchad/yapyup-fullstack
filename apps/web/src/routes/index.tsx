@@ -1,4 +1,3 @@
-// import SignUp from '@/components/sign-up-form'
 import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "@repo/ui/header";

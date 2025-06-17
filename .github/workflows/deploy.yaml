@@ -1,0 +1,83 @@
+# .github/workflows/deploy.yml
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # Job to detect changes in specific folders
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      dashboard: ${{ steps.changes.outputs.dashboard }}
+      marketing: ${{ steps.changes.outputs.marketing }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            dashboard:
+              - 'apps/web/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'turbo.json'
+            marketing:
+              - 'apps/marketing/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'turbo.json'
+
+  # Deploy Dashboard (Web)
+  deploy-dashboard:
+    needs: changes
+    if: ${{ needs.changes.outputs.dashboard == 'true' }}
+    runs-on: ubuntu-latest
+    name: Deploy Dashboard
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.15
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Deploy dashboard to Cloudflare
+        run: bun run deploy:web
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  # Deploy Marketing
+  deploy-marketing:
+    needs: changes
+    if: ${{ needs.changes.outputs.marketing == 'true' }}
+    runs-on: ubuntu-latest
+    name: Deploy Marketing
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.15
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Deploy marketing to Cloudflare
+        run: bun run deploy:marketing
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
