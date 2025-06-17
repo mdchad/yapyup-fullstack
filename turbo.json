@@ -18,7 +18,8 @@
       "persistent": true
     },
     "deploy": {
-      "cache": false
+      "cache": false,
+      "env": ["CLOUDFLARE_API_TOKEN"]
     },
     "db:push": {
       "cache": false,
