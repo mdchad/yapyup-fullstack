@@ -14,15 +14,15 @@ import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
-export const Route = createLazyFileRoute(
-  "/_protected/dashboard/org/$orgId/user/$userId",
-)({
-  component: RouteComponent,
-});
+export const Route = createLazyFileRoute("/_protected/org/$orgId/user/$userId")(
+  {
+    component: RouteComponent,
+  },
+);
 
 function RouteComponent() {
   const auth = useRouteContext({
-    from: "/_protected/dashboard/org/$orgId/user/$userId",
+    from: "/_protected/org/$orgId/user/$userId",
     select: (context) => context.auth,
   });
   async function handleSubmit(e: any) {

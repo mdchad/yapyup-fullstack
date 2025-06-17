@@ -115,7 +115,7 @@ export function LoginForm({
 
           if (!redirect) {
             await navigate({
-              to: "/dashboard",
+              to: "/",
             });
           }
           setIsLoading(false);

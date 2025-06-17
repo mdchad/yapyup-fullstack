@@ -22,17 +22,17 @@ import {
 } from "@repo/ui/dropdown-menu";
 import { toast } from "sonner";
 
-export const Route = createLazyFileRoute("/_protected/dashboard/org/$orgId/")({
+export const Route = createLazyFileRoute("/_protected/org/$orgId/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { queryClient, organization } = useRouteContext({
-    from: "/_protected/dashboard/org/$orgId/",
+    from: "/_protected/org/$orgId/",
     select: (context) => context,
   });
 
-  const params = useParams({ from: "/_protected/dashboard/org/$orgId/" });
+  const params = useParams({ from: "/_protected/org/$orgId/" });
 
   const [org, setOrg] = useState<any>(null);
   const [saving, setSaving] = useState(false);
@@ -89,14 +89,14 @@ function RouteComponent() {
         <div className="mx-auto flex w-full max-w-full flex-col gap-3 px-6 md:max-w-5xl md:gap-6">
           <div className="flex gap-8 pt-8 pb-2 text-sm font-medium">
             <Link
-              to="/dashboard/org/$orgId"
+              to="/org/$orgId"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               Usage
             </Link>
             <Link
-              to="/dashboard/org/$orgId"
+              to="/org/$orgId"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
@@ -106,21 +106,21 @@ function RouteComponent() {
               Team
             </span>
             <Link
-              to="/dashboard/org/$orgId"
+              to="/org/$orgId"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               SMTP
             </Link>
             <Link
-              to="/dashboard/org/$orgId"
+              to="/org/$orgId"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               Integrations
             </Link>
             <Link
-              to="/dashboard/org/$orgId"
+              to="/org/$orgId"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
@@ -218,7 +218,7 @@ function RouteComponent() {
                         <td className="py-2">{"-"}</td>
                         <td className="py-2 text-right">
                           <Link
-                            to="/dashboard/org/$orgId/user/$userId"
+                            to="/org/$orgId/user/$userId"
                             params={{
                               orgId: params.orgId,
                               userId: member.id,

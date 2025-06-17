@@ -8,6 +8,7 @@ const OrgContext = createContext<
 
 export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
   const organization = authClient.useActiveOrganization();
+  console.log("provider org", organization);
 
   return (
     <OrgContext.Provider value={organization}>{children}</OrgContext.Provider>

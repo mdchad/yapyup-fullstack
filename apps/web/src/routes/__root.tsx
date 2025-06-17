@@ -36,14 +36,14 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     const isAuthenticated = !!context.auth?.data?.session?.id;
     const isPending = context.auth?.isPending;
 
-    const isDashboardRoute = location.pathname.startsWith("/dashboard");
+    const isIndexRoute = location.pathname === "/";
 
     const isDashboardRedirectRoute =
       location &&
       location.search &&
       location.search.app_redirect &&
-      location.search.app_redirect.startsWith("/dashboard");
-    if (!isAuthenticated && !isPending && isDashboardRoute) {
+      location.search.app_redirect.startsWith("/");
+    if (!isAuthenticated && !isPending && isIndexRoute) {
       throw redirect({
         to: "/sign-in",
         search: {

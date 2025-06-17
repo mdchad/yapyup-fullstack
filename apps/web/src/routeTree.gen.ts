@@ -11,9 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
 import { Route as AuthSetOrganisationRouteImport } from './routes/_auth/set-organisation'
@@ -22,26 +20,16 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-pa
 import { Route as AuthCreateOrganisationRouteImport } from './routes/_auth/create-organisation'
 import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/_auth/accept-invitation.$invitationId'
 
-const ProtectedDashboardOrgOrgIdIndexLazyRouteImport = createFileRoute(
-  '/_protected/dashboard/org/$orgId/',
+const ProtectedOrgOrgIdIndexLazyRouteImport = createFileRoute(
+  '/_protected/org/$orgId/',
 )()
-const ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport = createFileRoute(
-  '/_protected/dashboard/org/$orgId/user/$userId',
+const ProtectedOrgOrgIdUserUserIdLazyRouteImport = createFileRoute(
+  '/_protected/org/$orgId/user/$userId',
 )()
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/_protected/dashboard',
-  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
@@ -80,149 +68,121 @@ const AuthAcceptInvitationInvitationIdRoute =
     path: '/accept-invitation/$invitationId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ProtectedDashboardOrgOrgIdIndexLazyRoute =
-  ProtectedDashboardOrgOrgIdIndexLazyRouteImport.update({
-    id: '/org/$orgId/',
+const ProtectedOrgOrgIdIndexLazyRoute =
+  ProtectedOrgOrgIdIndexLazyRouteImport.update({
+    id: '/_protected/org/$orgId/',
     path: '/org/$orgId/',
-    getParentRoute: () => ProtectedDashboardRoute,
+    getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
-    import('./routes/_protected/dashboard/org/$orgId/index.lazy').then(
-      (d) => d.Route,
-    ),
+    import('./routes/_protected/org/$orgId/index.lazy').then((d) => d.Route),
   )
-const ProtectedDashboardOrgOrgIdUserUserIdLazyRoute =
-  ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport.update({
-    id: '/org/$orgId/user/$userId',
+const ProtectedOrgOrgIdUserUserIdLazyRoute =
+  ProtectedOrgOrgIdUserUserIdLazyRouteImport.update({
+    id: '/_protected/org/$orgId/user/$userId',
     path: '/org/$orgId/user/$userId',
-    getParentRoute: () => ProtectedDashboardRoute,
+    getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
-    import('./routes/_protected/dashboard/org/$orgId/user/$userId.lazy').then(
+    import('./routes/_protected/org/$orgId/user/$userId.lazy').then(
       (d) => d.Route,
     ),
   )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/create-organisation': typeof AuthCreateOrganisationRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/set-organisation': typeof AuthSetOrganisationRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/dashboard/org/$orgId': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
-  '/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdIndexLazyRoute
+  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/create-organisation': typeof AuthCreateOrganisationRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/set-organisation': typeof AuthSetOrganisationRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/dashboard/org/$orgId': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
-  '/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdIndexLazyRoute
+  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
   '/_auth/create-organisation': typeof AuthCreateOrganisationRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/set-organisation': typeof AuthSetOrganisationRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_protected/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/_auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/_protected/dashboard/org/$orgId/': typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
-  '/_protected/dashboard/org/$orgId/user/$userId': typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
+  '/_protected/org/$orgId/': typeof ProtectedOrgOrgIdIndexLazyRoute
+  '/_protected/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
     | '/create-organisation'
     | '/forgot-password'
     | '/reset-password'
     | '/set-organisation'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard'
     | '/accept-invitation/$invitationId'
-    | '/dashboard/org/$orgId'
-    | '/dashboard/org/$orgId/user/$userId'
+    | '/org/$orgId'
+    | '/org/$orgId/user/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
     | '/create-organisation'
     | '/forgot-password'
     | '/reset-password'
     | '/set-organisation'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard'
     | '/accept-invitation/$invitationId'
-    | '/dashboard/org/$orgId'
-    | '/dashboard/org/$orgId/user/$userId'
+    | '/org/$orgId'
+    | '/org/$orgId/user/$userId'
   id:
     | '__root__'
     | '/'
-    | '/about'
     | '/_auth/create-organisation'
     | '/_auth/forgot-password'
     | '/_auth/reset-password'
     | '/_auth/set-organisation'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
-    | '/_protected/dashboard'
     | '/_auth/accept-invitation/$invitationId'
-    | '/_protected/dashboard/org/$orgId/'
-    | '/_protected/dashboard/org/$orgId/user/$userId'
+    | '/_protected/org/$orgId/'
+    | '/_protected/org/$orgId/user/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
   AuthCreateOrganisationRoute: typeof AuthCreateOrganisationRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSetOrganisationRoute: typeof AuthSetOrganisationRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  ProtectedDashboardRoute: typeof ProtectedDashboardRouteWithChildren
   AuthAcceptInvitationInvitationIdRoute: typeof AuthAcceptInvitationInvitationIdRoute
+  ProtectedOrgOrgIdIndexLazyRoute: typeof ProtectedOrgOrgIdIndexLazyRoute
+  ProtectedOrgOrgIdUserUserIdLazyRoute: typeof ProtectedOrgOrgIdUserUserIdLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/sign-up': {
@@ -274,49 +234,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/dashboard/org/$orgId/': {
-      id: '/_protected/dashboard/org/$orgId/'
+    '/_protected/org/$orgId/': {
+      id: '/_protected/org/$orgId/'
       path: '/org/$orgId'
-      fullPath: '/dashboard/org/$orgId'
-      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdIndexLazyRouteImport
-      parentRoute: typeof ProtectedDashboardRoute
+      fullPath: '/org/$orgId'
+      preLoaderRoute: typeof ProtectedOrgOrgIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_protected/dashboard/org/$orgId/user/$userId': {
-      id: '/_protected/dashboard/org/$orgId/user/$userId'
+    '/_protected/org/$orgId/user/$userId': {
+      id: '/_protected/org/$orgId/user/$userId'
       path: '/org/$orgId/user/$userId'
-      fullPath: '/dashboard/org/$orgId/user/$userId'
-      preLoaderRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRouteImport
-      parentRoute: typeof ProtectedDashboardRoute
+      fullPath: '/org/$orgId/user/$userId'
+      preLoaderRoute: typeof ProtectedOrgOrgIdUserUserIdLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface ProtectedDashboardRouteChildren {
-  ProtectedDashboardOrgOrgIdIndexLazyRoute: typeof ProtectedDashboardOrgOrgIdIndexLazyRoute
-  ProtectedDashboardOrgOrgIdUserUserIdLazyRoute: typeof ProtectedDashboardOrgOrgIdUserUserIdLazyRoute
-}
-
-const ProtectedDashboardRouteChildren: ProtectedDashboardRouteChildren = {
-  ProtectedDashboardOrgOrgIdIndexLazyRoute:
-    ProtectedDashboardOrgOrgIdIndexLazyRoute,
-  ProtectedDashboardOrgOrgIdUserUserIdLazyRoute:
-    ProtectedDashboardOrgOrgIdUserUserIdLazyRoute,
-}
-
-const ProtectedDashboardRouteWithChildren =
-  ProtectedDashboardRoute._addFileChildren(ProtectedDashboardRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
   AuthCreateOrganisationRoute: AuthCreateOrganisationRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSetOrganisationRoute: AuthSetOrganisationRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  ProtectedDashboardRoute: ProtectedDashboardRouteWithChildren,
   AuthAcceptInvitationInvitationIdRoute: AuthAcceptInvitationInvitationIdRoute,
+  ProtectedOrgOrgIdIndexLazyRoute: ProtectedOrgOrgIdIndexLazyRoute,
+  ProtectedOrgOrgIdUserUserIdLazyRoute: ProtectedOrgOrgIdUserUserIdLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

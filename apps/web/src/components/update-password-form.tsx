@@ -46,7 +46,7 @@ export function UpdatePasswordForm({
         },
         onSuccess: async (ctx) => {
           //redirect to the dashboard or sign in page
-          navigate({ to: "/dashboard" });
+          navigate({ to: "/" });
           setIsLoading(false);
         },
         onError: (ctx) => {

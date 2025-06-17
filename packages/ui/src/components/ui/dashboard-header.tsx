@@ -22,27 +22,27 @@ type Organisation = {
 const mainLink = [
   {
     name: "Audio",
-    href: "/dashboard/audio",
+    href: "/audio",
   },
   {
     name: "Chat",
-    href: "/dashboard/chat",
+    href: "/chat",
   },
   {
     name: "Transcribe",
-    href: "/dashboard/transcribe",
+    href: "/transcribe",
   },
   {
     name: "Canvas",
-    href: "/dashboard/canvas",
+    href: "/canvas",
   },
   {
     name: "Notes",
-    href: "/dashboard/notes",
+    href: "/notes",
   },
   {
     name: "Capture",
-    href: "/dashboard/capture",
+    href: "/capture",
   },
 ];
 

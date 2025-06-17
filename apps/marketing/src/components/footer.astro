@@ -1,19 +1,64 @@
-<footer class="my-20">
-  <p class="text-center text-sm text-slate-500">
-    Copyright © {new Date().getFullYear()} Astroship. All rights reserved.
-  </p>
-  <!--
-    Can we ask you a favor 🙏
-    Please keep this backlink on your website if possible.
-    or Purchase a commercial license from https://web3templates.com
-  -->
-  <p class="text-center text-xs text-slate-500 mt-1">
-    Made by <a
-      href="https://web3templates.com"
-      target="_blank"
-      rel="noopener"
-      class="hover:underline">
-      Web3Templates
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="max-w-7xl mx-auto py-20 px-4">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12 font-mono text-gray-600 text-xs">
+    <!-- Product Column -->
+    <div>
+      <h3 class="font-semibold text-gray-900 mb-4">Product</h3>
+      <ul class="space-y-3">
+        <li><a href="/get-started" class="hover:text-gray-900">Get Started</a></li>
+        <li><a href="/pricing" class="hover:text-gray-900">Pricing</a></li>
+        <li><a href="/feedback" class="hover:text-gray-900">Feedback</a></li>
+        <li><a href="/updates" class="hover:text-gray-900">Updates</a></li>
+        <li><a href="/roadmap" class="hover:text-gray-900">Roadmap</a></li>
+        <li><a href="/use-cases" class="hover:text-gray-900">Use Cases</a></li>
+        <li><a href="/tools" class="hover:text-gray-900">Tools</a></li>
+      </ul>
+    </div>
+
+    <!-- Support Column -->
+    <div>
+      <h3 class="font-semibold text-gray-900 mb-4">Support</h3>
+      <ul class="space-y-3">
+        <li><a href="/contact" class="text-gray-600 hover:text-gray-900">Contact</a></li>
+        <li><a href="/docs" class="text-gray-600 hover:text-gray-900">Docs</a></li>
+        <li><a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a></li>
+        <li><a href="/status" class="text-gray-600 hover:text-gray-900">Status</a></li>
+        <li><a href="/stories" class="text-gray-600 hover:text-gray-900">Stories</a></li>
+        <li><a href="/definitions" class="text-gray-600 hover:text-gray-900">Definitions</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal Column -->
+    <div>
+      <h3 class="font-semibold text-gray-900 mb-4">Legal</h3>
+      <ul class="space-y-3">
+        <li><a href="/privacy" class="text-gray-600 hover:text-gray-900">Privacy</a></li>
+        <li><a href="/terms" class="text-gray-600 hover:text-gray-900">Terms</a></li>
+      </ul>
+    </div>
+
+    <!-- Resources Column -->
+    <div>
+      <h3 class="font-semibold text-gray-900 mb-4">Resources</h3>
+      <ul class="space-y-3">
+        <li><a href="/canny-alternative" class="text-gray-600 hover:text-gray-900">Canny Alternative</a></li>
+        <li><a href="/nolt-alternative" class="text-gray-600 hover:text-gray-900">Nolt.io Alternative</a></li>
+        <li><a href="/uservoice-alternative" class="text-gray-600 hover:text-gray-900">UserVoice Alternative</a></li>
+        <li><a href="/compare" class="text-gray-600 hover:text-gray-900">Compare</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Copyright and Social -->
+  <div class="flex justify-between items-center pt-8 border-t border-gray-200 text-xs">
+    <p class="text-sm text-gray-600">© {currentYear} Yapyup. All rights reserved.</p>
+    <a href="https://twitter.com/userjot" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
     </a>
-  </p>
+  </div>
 </footer>

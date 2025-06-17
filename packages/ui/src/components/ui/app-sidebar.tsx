@@ -46,7 +46,7 @@ import { toast } from "sonner";
 const items = [
   {
     title: "Home",
-    url: "/dashboard",
+    url: "/",
     icon: Home,
   },
   {
@@ -82,6 +82,11 @@ export function AppSidebar({
   organizations: any;
   handleSignOut: any;
 }) {
+  console.log({
+    user,
+    organization,
+    organizations,
+  });
   const iconRef = useRef(null);
   const layersIconRef = useRef<LayersIconHandle | null>(null);
   const checkIconRef = useRef<CheckIconHandle | null>(null);
@@ -134,7 +139,7 @@ export function AppSidebar({
                   })}
                 <Separator className="my-2" />
                 <Link
-                  to="/dashboard/org/$orgId"
+                  to="/org/$orgId"
                   params={{ orgId: organization?.id || "" }}
                 >
                   <DropdownMenuItem className="cursor-pointer p-2">

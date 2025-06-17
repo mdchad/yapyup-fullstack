@@ -19,12 +19,12 @@ export default function Header({ isAuthenticated }) {
         {isAuthenticated ? (
           <>
             <div className="px-2">
-              <Link to="/dashboard" exact className="[&.active]:font-bold">
+              <Link to="/" exact className="[&.active]:font-bold">
                 Dashboard
               </Link>
             </div>
             <div className="px-2">
-              <Link to="/dashboard/chat" className="[&.active]:font-bold">
+              <Link to="/chat" className="[&.active]:font-bold">
                 Chat
               </Link>
             </div>

@@ -7,13 +7,12 @@ import {
   NavigationMenuTrigger,
 } from "./navigation-menu";
 import { Button } from "./button";
-// import { Link } from "@tanstack/react-router";
 
 export function Header({ isAuthenticated }: { isAuthenticated?: any }) {
   return (
     <div
       className={
-        "height-[104px] mt-8 mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-200 py-3 bg-white shadow-md rounded-[1rem] max-w-[900px]"
+        "border-2 border-gray-100 outline-gray-200 outline -outline-offset-4 mt-8 mx-auto fixed top-0 left-0 right-0 z-50 transition-all duration-200 py-3 bg-white rounded-[1rem] max-w-[900px]"
       }
     >
       <div className="mx-auto px-6 flex items-center justify-between">
@@ -124,7 +123,7 @@ export function Header({ isAuthenticated }: { isAuthenticated?: any }) {
 
         {/* Sign Up Button */}
         {isAuthenticated ? (
-          <a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/dashboard`}>
+          <a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/`}>
             <Button className="cursor-pointer rounded-lg bg-purple-200 text-black hover:text-black hover:bg-purple-100">
               Dashboard
             </Button>

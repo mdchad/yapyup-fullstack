@@ -44,7 +44,11 @@ export const App = () => {
   const organization = useOrg();
 
   useEffect(() => {
-    if (!organization.isPending && organization.data) {
+    if (
+      !organization.isPending &&
+      organization.data &&
+      auth?.data?.session?.id
+    ) {
       router.invalidate();
     }
   }, [organization.isPending, organization.data]);

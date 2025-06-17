@@ -85,7 +85,7 @@ function RouteComponent() {
           //redirect to the dashboard or sign in page
           setIsSuccess(true);
 
-          navigate({ to: "/dashboard" });
+          navigate({ to: "/" });
           setIsLoading(false);
         },
         onError: (ctx) => {
