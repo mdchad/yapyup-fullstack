@@ -19,7 +19,12 @@
     },
     "deploy": {
       "cache": false,
-      "env": ["CLOUDFLARE_API_TOKEN"]
+      "env": [
+        "CLOUDFLARE_API_TOKEN",
+        "DASHBOARD_CLIENT_URL",
+        "VITE_SERVER_URL",
+        "VITE_CLIENT_URL"
+      ]
     },
     "db:push": {
       "cache": false,
