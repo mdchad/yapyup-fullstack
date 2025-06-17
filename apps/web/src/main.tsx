@@ -12,7 +12,6 @@ import { OrgProvider, useOrg } from "@/providers/org-provider";
 export const router = createRouter({
   routeTree,
   defaultPreload: "intent",
-  defaultPendingComponent: () => <Loader />,
   context: {
     trpc,
     queryClient,

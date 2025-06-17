@@ -9,7 +9,7 @@ on:
 
 jobs:
   # Job to detect changes in specific folders
-  changes:
+  Changes:
     runs-on: ubuntu-latest
     outputs:
       dashboard: ${{ steps.changes.outputs.dashboard }}
