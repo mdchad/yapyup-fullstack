@@ -135,11 +135,12 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="border-0 shadow-lg">
+        <div className="px-6">
+          <img src="/yapyup.svg" alt="logo" className="w-6 lg:w-7" />
+        </div>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardTitle className="text-2xl">Sign in to your account</CardTitle>
+          <CardDescription>Enter your email below</CardDescription>
         </CardHeader>
         <CardContent>
           <motion.div
@@ -207,20 +208,27 @@ export function LoginForm({
                       </motion.div>
                     )}
                   </AnimatePresence>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  <Button
+                    type="submit"
+                    className="w-full bg-purple-500/70 hover:bg-purple-400/70 text-white font-bold cursor-pointer"
+                    disabled={isLoading}
+                  >
                     {isLoading ? (
                       <LoaderCircle className="mr-2 animate-spin" />
                     ) : isSuccess ? (
                       <CheckCircle className="mr-2" />
                     ) : (
-                      "Login"
+                      "Sign In"
                     )}
                   </Button>
                 </div>
                 {!nextStep && (
                   <div className="mt-4 text-center text-sm">
                     Don&apos;t have an account?{" "}
-                    <a href="/sign-up" className="underline underline-offset-4">
+                    <a
+                      href="/sign-up"
+                      className="underline underline-offset-4 text-purple-500"
+                    >
                       Sign up
                     </a>
                   </div>
