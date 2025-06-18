@@ -11,6 +11,7 @@ import {
   createRootRouteWithContext,
   useRouterState,
   redirect,
+  type ParsedLocation,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "@repo/ui/globals.css";
@@ -30,9 +31,17 @@ const redirectSearchSchema = z.object({
   app_redirect: z.string().optional(),
 });
 
+type RedirectSearch = z.infer<typeof redirectSearchSchema>;
+
 export const Route = createRootRouteWithContext<RouterAppContext>()({
   validateSearch: redirectSearchSchema,
-  beforeLoad: async ({ context, location }) => {
+  beforeLoad: async ({
+    context,
+    location,
+  }: {
+    context: RouterAppContext;
+    location: ParsedLocation<RedirectSearch>;
+  }) => {
     const isAuthenticated = !!context.auth?.data?.session?.id;
     const isPending = context.auth?.isPending;
 
