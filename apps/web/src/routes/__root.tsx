@@ -1,5 +1,3 @@
-import Header from "@/components/header";
-import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@repo/ui/sonner";
 import { queryClient, type trpc } from "@/utils/trpc";
@@ -78,12 +76,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 });
 
 function RootComponent() {
-  const session = authClient.useSession();
-
-  useEffect(() => {
-    router.invalidate();
-  }, [session?.data?.session?.id]);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">

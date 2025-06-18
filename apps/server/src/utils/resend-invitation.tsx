@@ -1,4 +1,4 @@
-import InviteUserEmail from "@yapyup/emails/invitation-template";
+import InviteUserEmail from "@repo/emails/invitation-template";
 
 function resendInvitation(data: any, inviteLink: string) {
   return {

@@ -28,7 +28,7 @@
     "@better-auth/expo": "^1.2.8",
     "@react-email/components": "^0.0.41",
     "resend": "^4.5.1",
-    "@yapyup/emails": "workspace:*"
+    "@repo/emails": "workspace:*"
   },
   "devDependencies": {
     "tsc-alias": "^1.8.11",
