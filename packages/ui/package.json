@@ -12,11 +12,9 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "postcss": "catalog:",
     "tailwindcss": "catalog:"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.10",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "lucide-react": "catalog:",
@@ -43,7 +41,6 @@
     "@radix-ui/react-tooltip": "^1.2.7"
   },
   "exports": {
-    "./postcss.config": "./postcss.config.mjs",
     "./tailwind.config": "./tailwind.config.mjs",
     "./globals.css": "./globals.css",
     "./lib/*": "./src/lib/*.ts",

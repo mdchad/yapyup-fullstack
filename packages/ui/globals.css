@@ -129,6 +129,20 @@ body {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@theme {
+  --color-lilac-50: #f9f6f9;
+  --color-lilac-100: #f5eef5;
+  --color-lilac-200: #ebdeec;
+  --color-lilac-300: #dcc4dd;
+  --color-lilac-400: #c8a2c8;
+  --color-lilac-500: #b381b2;
+  --color-lilac-600: #9c6698;
+  --color-lilac-700: #84527f;
+  --color-lilac-800: #6e4669;
+  --color-lilac-900: #5e3d5a;
+  --color-lilac-950: #362133;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

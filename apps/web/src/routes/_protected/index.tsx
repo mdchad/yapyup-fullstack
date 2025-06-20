@@ -15,5 +15,5 @@ export const Route = createFileRoute("/_protected/")({
 });
 
 function Dashboard() {
-  return <div>Dashboard!!</div>;
+  return <div className="bg-lilac-200">Dashboard!!</div>;
 }

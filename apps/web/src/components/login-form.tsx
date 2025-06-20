@@ -242,7 +242,7 @@ export function LoginForm({
                   </AnimatePresence>
                   <Button
                     type="submit"
-                    className="w-full bg-[#b381b2]/90 hover:bg-[#c8a2c8] text-[white] cursor-pointer"
+                    className="w-full bg-lilac-500/90 hover:bg-400 text-white cursor-pointer"
                     disabled={isLoading}
                   >
                     {isLoading ? (
