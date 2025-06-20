@@ -43,18 +43,20 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     const isAuthenticated = !!context.auth?.data?.session?.id;
     const isPending = context.auth?.isPending;
 
-    const isIndexRoute = location.pathname === "/";
+    const isAuthRoute = location.pathname.startsWith("/auth");
 
     const isDashboardRedirectRoute =
       location &&
       location.search &&
       location.search.app_redirect &&
-      location.search.app_redirect.startsWith("/");
-    if (!isAuthenticated && !isPending && isIndexRoute) {
+      !location.search.app_redirect.startsWith("/auth");
+
+    if (!isAuthenticated && !isPending && !isAuthRoute) {
+      console.log("redirecting to sign in");
       throw redirect({
-        to: "/sign-in",
+        to: "/auth/sign-in",
         search: {
-          app_redirect: location.href,
+          ...(location.href !== "/" && { app_redirect: location.href }),
         },
       });
     }

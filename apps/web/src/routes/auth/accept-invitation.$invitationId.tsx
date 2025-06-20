@@ -43,7 +43,7 @@ import { LoaderCircle } from "lucide-react";
 
 const StepEnum = z.enum(["signup", "login"]);
 
-export const Route = createFileRoute("/_auth/accept-invitation/$invitationId")({
+export const Route = createFileRoute("/auth/accept-invitation/$invitationId")({
   validateSearch: z.object({
     step: StepEnum,
     email: z.string().optional(),
@@ -58,16 +58,16 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   const { step, email } = useSearch({
-    from: "/_auth/accept-invitation/$invitationId",
+    from: "/auth/accept-invitation/$invitationId",
   });
 
   const invitationId = useParams({
-    from: "/_auth/accept-invitation/$invitationId",
+    from: "/auth/accept-invitation/$invitationId",
     select: (params) => params.invitationId,
   });
 
   const auth = useRouteContext({
-    from: "/_auth/accept-invitation/$invitationId",
+    from: "/auth/accept-invitation/$invitationId",
     select: (context) => context.auth,
   });
 

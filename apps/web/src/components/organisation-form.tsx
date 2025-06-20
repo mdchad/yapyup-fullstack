@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,32 +10,26 @@ import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { Label } from "@repo/ui/label";
 import { Alert, AlertDescription } from "@repo/ui/alert";
-import { Badge } from "@repo/ui/badge";
 import { Separator } from "@repo/ui/separator";
-import {
-  Building2,
-  Users,
-  Plus,
-  Check,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
+import { Users, Plus, Check, AlertCircle, Loader2 } from "lucide-react";
 
 // Better Auth client setup
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
+import slugify from "slugify";
+import { useDebounce } from "@/hooks/use-debounce";
 
 // Create auth client with organization plugin
 const OrganizationSignupFlow = () => {
   const [currentStep, setCurrentStep] = useState("welcome");
-  const [invitationId, setInvitationId] = useState(null);
-  const [invitationData, setInvitationData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   // Better Auth hooks
-  const { data: session, isPending: sessionPending } = authClient.useSession();
-  const { data: organizations } = authClient.useListOrganizations();
+  const { isPending: sessionPending } = authClient.useSession();
   const { data: activeOrganization } = authClient.useActiveOrganization();
 
   // Organization creation form
@@ -44,20 +38,9 @@ const OrganizationSignupFlow = () => {
     slug: "",
     logo: "",
   });
-  const [slugAvailable, setSlugAvailable] = useState(null);
+
+  const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [checkingSlug, setCheckingSlug] = useState(false);
-
-  // Check for invitation on component mount
-  useEffect(() => {
-    // In real implementation, get invitation ID from URL params
-    const urlParams = new URLSearchParams(window.location.search);
-    const inviteId = urlParams.get("invitation");
-
-    if (inviteId) {
-      setInvitationId(inviteId);
-      loadInvitationData(inviteId);
-    }
-  }, []);
 
   // Redirect to login if not authenticated
   if (sessionPending) {
@@ -71,47 +54,18 @@ const OrganizationSignupFlow = () => {
     );
   }
 
-  // if (!session) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <Card>
-  //         <CardHeader>
-  //           <CardTitle>Please Sign In</CardTitle>
-  //           <CardDescription>You need to be signed in to access this page</CardDescription>
-  //         </CardHeader>
-  //         <CardContent>
-  //           <Button onClick={() => window.location.href = '/sign-in'} className="w-full">
-  //             Go to Sign In
-  //           </Button>
-  //         </CardContent>
-  //       </Card>
-  //     </div>
-  //   );
-  // }
-
-  const loadInvitationData = async (inviteId) => {
-    try {
-      setLoading(true);
-      const invitation = await authClient.organization.getInvitation({
-        invitationId: inviteId,
-      });
-      setInvitationData(invitation);
-      setCurrentStep("invitation-review");
-    } catch (err) {
-      setError("Invalid or expired invitation");
-      setCurrentStep("welcome");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const checkSlugAvailability = async (slug) => {
+  const checkSlugAvailability = async (slug: string) => {
     if (!slug || slug.length < 3) return;
 
     setCheckingSlug(true);
+    setSlugAvailable(null);
     try {
-      const available = await authClient.organization.checkSlug({ slug });
-      setSlugAvailable(available);
+      const response = await authClient.organization.checkSlug({ slug });
+      if (response?.error?.status) {
+        setSlugAvailable(false);
+      } else {
+        setSlugAvailable(true);
+      }
     } catch (err) {
       setSlugAvailable(false);
     } finally {
@@ -119,13 +73,15 @@ const OrganizationSignupFlow = () => {
     }
   };
 
-  const handleSlugChange = (value) => {
-    const slug = value.toLowerCase().replace(/[^a-z0-9-]/g, "");
+  const debouncedClickHandler = useDebounce((ev) => {
+    checkSlugAvailability(ev);
+  }, 500);
+
+  const handleSlugChange = (value: string) => {
+    const slug = slugify(value);
     setOrgForm((prev) => ({ ...prev, slug }));
 
-    // Debounce slug checking
-    const timeoutId = setTimeout(() => checkSlugAvailability(slug), 500);
-    return () => clearTimeout(timeoutId);
+    debouncedClickHandler(value);
   };
 
   const handleCreateOrganization = async () => {
@@ -148,7 +104,7 @@ const OrganizationSignupFlow = () => {
 
       // Set as active organization
       await authClient.organization.setActive({
-        organizationId: organization.id,
+        organizationId: organization?.id,
       });
 
       setCurrentStep("success");
@@ -162,40 +118,14 @@ const OrganizationSignupFlow = () => {
     }
   };
 
-  const handleAcceptInvitation = async () => {
-    setLoading(true);
-    setError("");
-
-    try {
-      const result = await authClient.organization.acceptInvitation({
-        invitationId: invitationId,
-      });
-
-      // Set the organization as active
-      await authClient.organization.setActive({
-        organizationId: result.organizationId,
-      });
-
-      setCurrentStep("invitation-success");
-    } catch (err) {
-      setError(err.message || "Failed to accept invitation. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Auto-generate slug from name
-  const handleNameChange = (name) => {
+  const handleNameChange = (name: string) => {
+    debouncedClickHandler(name);
+
     setOrgForm((prev) => ({
       ...prev,
       name,
-      slug:
-        prev.slug ||
-        name
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, "-")
-          .replace(/-+/g, "-")
-          .replace(/^-|-$/g, ""),
+      slug: slugify(name),
     }));
   };
 
@@ -205,13 +135,14 @@ const OrganizationSignupFlow = () => {
         {/* Welcome Step */}
         {currentStep === "welcome" && (
           <Card>
-            <CardHeader className="text-center">
-              <Building2 className="h-12 w-12 mx-auto mb-4 text-blue-600" />
+            <CardHeader className="flex flex-col items-center text-center">
+              <div className="pb-6">
+                <img src="/yapyup.svg" alt="logo" className="w-6 lg:w-10" />
+              </div>
               <CardTitle>Welcome to Our Platform!</CardTitle>
               <CardDescription>
-                {organizations && organizations.length > 0
-                  ? `You're already a member of ${organizations.length} organization(s). Create a new one or manage existing ones.`
-                  : "Get started by creating your organization or joining an existing one"}
+                Get started by creating your organization or joining an existing
+                one
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -223,31 +154,6 @@ const OrganizationSignupFlow = () => {
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Organization
               </Button>
-
-              {organizations && organizations.length > 0 && (
-                <>
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <Separator />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-background px-2 text-muted-foreground">
-                        Or
-                      </span>
-                    </div>
-                  </div>
-
-                  <Button
-                    variant="outline"
-                    onClick={() => (window.location.href = "/dashboard")}
-                    className="w-full"
-                    size="lg"
-                  >
-                    <Users className="h-4 w-4 mr-2" />
-                    Go to My Organizations
-                  </Button>
-                </>
-              )}
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -359,8 +265,9 @@ const OrganizationSignupFlow = () => {
                 >
                   {loading ? (
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : null}
-                  Create Organization
+                  ) : (
+                    "Create Organization"
+                  )}
                 </Button>
               </div>
             </CardContent>
@@ -396,61 +303,6 @@ const OrganizationSignupFlow = () => {
           </Card>
         )}
 
-        {/* Invitation Review Step */}
-        {currentStep === "invitation-review" && invitationData && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Organization Invitation</CardTitle>
-              <CardDescription>
-                You've been invited to join an organization
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Organization:</span>
-                  <span>{invitationData.organizationName}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Invited by:</span>
-                  <span>{invitationData.inviterName}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Role:</span>
-                  <Badge variant="secondary">{invitationData.role}</Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Email:</span>
-                  <span className="text-sm text-muted-foreground">
-                    {invitationData.email}
-                  </span>
-                </div>
-              </div>
-
-              {error && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
-              <Button
-                onClick={handleAcceptInvitation}
-                disabled={loading}
-                className="w-full"
-                size="lg"
-              >
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                ) : (
-                  <Check className="h-4 w-4 mr-2" />
-                )}
-                Accept Invitation
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
         {/* Success Steps */}
         {currentStep === "success" && (
           <Card>
@@ -471,44 +323,14 @@ const OrganizationSignupFlow = () => {
                   <p className="font-medium">{activeOrganization.name}</p>
                 </div>
               )}
-              <Button
-                onClick={() => (window.location.href = "/dashboard")}
-                className="w-full"
-                size="lg"
-              >
-                Go to Dashboard
-              </Button>
-            </CardContent>
-          </Card>
-        )}
 
-        {currentStep === "invitation-success" && (
-          <Card>
-            <CardHeader className="text-center">
-              <Check className="h-12 w-12 mx-auto mb-4 text-green-600" />
-              <CardTitle>
-                Welcome to {invitationData?.organizationName}!
-              </CardTitle>
-              <CardDescription>
-                You've successfully joined the organization and it's now your
-                active workspace.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {activeOrganization && (
-                <div className="bg-muted p-3 rounded-lg">
-                  <p className="text-sm text-muted-foreground">
-                    Active Organization:
-                  </p>
-                  <p className="font-medium">{activeOrganization.name}</p>
-                  <Badge variant="outline" className="mt-1">
-                    {invitationData?.role}
-                  </Badge>
-                </div>
-              )}
               <Button
-                onClick={() => (window.location.href = "/dashboard")}
-                className="w-full"
+                onClick={() => {
+                  navigate({
+                    to: "/",
+                  });
+                }}
+                className="w-full bg-purple-500/70 hover:bg-purple-400/70 text-white font-bold cursor-pointer"
                 size="lg"
               >
                 Go to Dashboard

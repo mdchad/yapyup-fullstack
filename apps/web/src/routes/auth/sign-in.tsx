@@ -1,9 +1,18 @@
-import { createFileRoute, useRouterState } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  redirect,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 import { LoginForm } from "@/components/login-form";
-import { authQueries } from "@/lib/queries/auth";
 
-export const Route = createFileRoute("/_auth/sign-in")({
+export const Route = createFileRoute("/auth/sign-in")({
   component: SignIn,
+  beforeLoad: (ctx) => {
+    if (ctx?.context?.auth?.data?.user) {
+      throw redirect({ to: "/" });
+    }
+  },
 });
 
 function SignIn() {

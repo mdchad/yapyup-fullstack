@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 import Loader from "@/components/loader";
 import { useAuth } from "./auth-provider";
+import { useNavigate } from "@tanstack/react-router";
 
 const OrgContext = createContext<
   ReturnType<typeof authClient.useActiveOrganization> | undefined

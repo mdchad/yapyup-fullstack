@@ -2,6 +2,7 @@ import {
   createFileRoute,
   useRouteContext,
   Outlet,
+  redirect,
 } from "@tanstack/react-router";
 import { SidebarProvider } from "@repo/ui/sidebar";
 import { AppSidebar } from "@repo/ui/app-sidebar";
@@ -9,13 +10,28 @@ import DashboardHeader from "@repo/ui/dashboard-header";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
-export const Route = createFileRoute("/")({
-  component: Dashboard,
+export const Route = createFileRoute("/_protected")({
+  component: PathlessLayoutComponent,
+  beforeLoad: async ({ context }) => {
+    const isAuthenticated = !!context.auth?.data?.session?.id;
+    const isPending = context.auth?.isPending;
+
+    if (
+      !isPending &&
+      isAuthenticated &&
+      !context.organization?.isPending &&
+      !context?.organization?.data
+    ) {
+      throw redirect({
+        to: "/auth/signinhandler",
+      });
+    }
+  },
 });
 
-function Dashboard() {
+function PathlessLayoutComponent() {
   const { auth, organization } = useRouteContext({
-    from: "/",
+    from: "/_protected",
     select: (context) => ({
       auth: context.auth,
       organization: context.organization,

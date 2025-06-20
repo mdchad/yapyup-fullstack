@@ -31,7 +31,7 @@ export default function Header({ isAuthenticated }) {
           </>
         ) : (
           <div className="px-2">
-            <Link to="/sign-in" className="[&.active]:font-bold">
+            <Link to="/auth/sign-in" className="[&.active]:font-bold">
               Log In
             </Link>
           </div>

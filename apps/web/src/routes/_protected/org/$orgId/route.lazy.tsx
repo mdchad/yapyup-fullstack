@@ -22,17 +22,17 @@ import {
 } from "@repo/ui/dropdown-menu";
 import { toast } from "sonner";
 
-export const Route = createLazyFileRoute("/_protected/org/$orgId/")({
+export const Route = createLazyFileRoute("/_protected/org/$orgId")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { queryClient, organization } = useRouteContext({
-    from: "/_protected/org/$orgId/",
+    from: "/_protected/org/$orgId",
     select: (context) => context,
   });
 
-  const params = useParams({ from: "/_protected/org/$orgId/" });
+  const params = useParams({ from: "/_protected/org/$orgId" });
 
   const [org, setOrg] = useState<any>(null);
   const [saving, setSaving] = useState(false);
@@ -69,11 +69,11 @@ function RouteComponent() {
         background: "white",
       },
       loading: "Loading...",
-      success: (data: { name: string }) => {
+      success: (data: any) => {
         queryClient.invalidateQueries({
           queryKey: ["organization", params.orgId, "full"],
         });
-        return `Invitation cancelled for ${data.data.email}`;
+        return `Invitation cancelled for ${data.data?.email || "the user"}`;
       },
       error: "Error",
     });

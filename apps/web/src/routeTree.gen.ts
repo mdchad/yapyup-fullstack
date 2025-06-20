@@ -11,257 +11,317 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
-import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
-import { Route as AuthSetOrganisationRouteImport } from './routes/_auth/set-organisation'
-import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
-import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
-import { Route as AuthCreateOrganisationRouteImport } from './routes/_auth/create-organisation'
-import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/_auth/accept-invitation.$invitationId'
+import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as AuthSigninhandlerRouteImport } from './routes/auth/signinhandler'
+import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
+import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
+import { Route as AuthSetOrganisationRouteImport } from './routes/auth/set-organisation'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
+import { Route as AuthCreateOrganisationRouteImport } from './routes/auth/create-organisation'
+import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/auth/accept-invitation.$invitationId'
 
-const ProtectedOrgOrgIdIndexLazyRouteImport = createFileRoute(
-  '/_protected/org/$orgId/',
+const ProtectedOrgOrgIdRouteLazyRouteImport = createFileRoute(
+  '/_protected/org/$orgId',
 )()
-const ProtectedOrgOrgIdUserUserIdLazyRouteImport = createFileRoute(
+const ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport = createFileRoute(
   '/_protected/org/$orgId/user/$userId',
 )()
 
-const IndexRoute = IndexRouteImport.update({
+const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
+const AuthSigninhandlerRoute = AuthSigninhandlerRouteImport.update({
+  id: '/auth/signinhandler',
+  path: '/auth/signinhandler',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
-  id: '/_auth/sign-up',
-  path: '/sign-up',
+  id: '/auth/sign-up',
+  path: '/auth/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
-  id: '/_auth/sign-in',
-  path: '/sign-in',
+  id: '/auth/sign-in',
+  path: '/auth/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSetOrganisationRoute = AuthSetOrganisationRouteImport.update({
-  id: '/_auth/set-organisation',
-  path: '/set-organisation',
+  id: '/auth/set-organisation',
+  path: '/auth/set-organisation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
-  id: '/_auth/reset-password',
-  path: '/reset-password',
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
-  id: '/_auth/forgot-password',
-  path: '/forgot-password',
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCreateOrganisationRoute = AuthCreateOrganisationRouteImport.update({
-  id: '/_auth/create-organisation',
-  path: '/create-organisation',
+  id: '/auth/create-organisation',
+  path: '/auth/create-organisation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedOrgOrgIdRouteLazyRoute =
+  ProtectedOrgOrgIdRouteLazyRouteImport.update({
+    id: '/org/$orgId',
+    path: '/org/$orgId',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_protected/org/$orgId/route.lazy').then((d) => d.Route),
+  )
 const AuthAcceptInvitationInvitationIdRoute =
   AuthAcceptInvitationInvitationIdRouteImport.update({
-    id: '/_auth/accept-invitation/$invitationId',
-    path: '/accept-invitation/$invitationId',
+    id: '/auth/accept-invitation/$invitationId',
+    path: '/auth/accept-invitation/$invitationId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ProtectedOrgOrgIdIndexLazyRoute =
-  ProtectedOrgOrgIdIndexLazyRouteImport.update({
-    id: '/_protected/org/$orgId/',
-    path: '/org/$orgId/',
-    getParentRoute: () => rootRouteImport,
+const ProtectedOrgOrgIdUserUserIdRouteLazyRoute =
+  ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport.update({
+    id: '/user/$userId',
+    path: '/user/$userId',
+    getParentRoute: () => ProtectedOrgOrgIdRouteLazyRoute,
   } as any).lazy(() =>
-    import('./routes/_protected/org/$orgId/index.lazy').then((d) => d.Route),
-  )
-const ProtectedOrgOrgIdUserUserIdLazyRoute =
-  ProtectedOrgOrgIdUserUserIdLazyRouteImport.update({
-    id: '/_protected/org/$orgId/user/$userId',
-    path: '/org/$orgId/user/$userId',
-    getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/_protected/org/$orgId/user/$userId.lazy').then(
+    import('./routes/_protected/org/$orgId/user/$userId/route.lazy').then(
       (d) => d.Route,
     ),
   )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/create-organisation': typeof AuthCreateOrganisationRoute
-  '/forgot-password': typeof AuthForgotPasswordRoute
-  '/reset-password': typeof AuthResetPasswordRoute
-  '/set-organisation': typeof AuthSetOrganisationRoute
-  '/sign-in': typeof AuthSignInRoute
-  '/sign-up': typeof AuthSignUpRoute
-  '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdIndexLazyRoute
-  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
+  '/auth/create-organisation': typeof AuthCreateOrganisationRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/set-organisation': typeof AuthSetOrganisationRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/': typeof ProtectedIndexRoute
+  '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
+  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/create-organisation': typeof AuthCreateOrganisationRoute
-  '/forgot-password': typeof AuthForgotPasswordRoute
-  '/reset-password': typeof AuthResetPasswordRoute
-  '/set-organisation': typeof AuthSetOrganisationRoute
-  '/sign-in': typeof AuthSignInRoute
-  '/sign-up': typeof AuthSignUpRoute
-  '/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdIndexLazyRoute
-  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
+  '/auth/create-organisation': typeof AuthCreateOrganisationRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/set-organisation': typeof AuthSetOrganisationRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/': typeof ProtectedIndexRoute
+  '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
+  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_auth/create-organisation': typeof AuthCreateOrganisationRoute
-  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
-  '/_auth/reset-password': typeof AuthResetPasswordRoute
-  '/_auth/set-organisation': typeof AuthSetOrganisationRoute
-  '/_auth/sign-in': typeof AuthSignInRoute
-  '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/_protected/org/$orgId/': typeof ProtectedOrgOrgIdIndexLazyRoute
-  '/_protected/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdLazyRoute
+  '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/auth/create-organisation': typeof AuthCreateOrganisationRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
+  '/auth/set-organisation': typeof AuthSetOrganisationRoute
+  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/sign-up': typeof AuthSignUpRoute
+  '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/_protected/': typeof ProtectedIndexRoute
+  '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
+  '/_protected/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
+  '/_protected/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/auth/create-organisation'
+    | '/auth/forgot-password'
+    | '/auth/reset-password'
+    | '/auth/set-organisation'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/auth/signinhandler'
     | '/'
-    | '/create-organisation'
-    | '/forgot-password'
-    | '/reset-password'
-    | '/set-organisation'
-    | '/sign-in'
-    | '/sign-up'
-    | '/accept-invitation/$invitationId'
+    | '/auth/accept-invitation/$invitationId'
     | '/org/$orgId'
     | '/org/$orgId/user/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/auth/create-organisation'
+    | '/auth/forgot-password'
+    | '/auth/reset-password'
+    | '/auth/set-organisation'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/auth/signinhandler'
     | '/'
-    | '/create-organisation'
-    | '/forgot-password'
-    | '/reset-password'
-    | '/set-organisation'
-    | '/sign-in'
-    | '/sign-up'
-    | '/accept-invitation/$invitationId'
+    | '/auth/accept-invitation/$invitationId'
     | '/org/$orgId'
     | '/org/$orgId/user/$userId'
   id:
     | '__root__'
-    | '/'
-    | '/_auth/create-organisation'
-    | '/_auth/forgot-password'
-    | '/_auth/reset-password'
-    | '/_auth/set-organisation'
-    | '/_auth/sign-in'
-    | '/_auth/sign-up'
-    | '/_auth/accept-invitation/$invitationId'
-    | '/_protected/org/$orgId/'
+    | '/_protected'
+    | '/auth/create-organisation'
+    | '/auth/forgot-password'
+    | '/auth/reset-password'
+    | '/auth/set-organisation'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+    | '/auth/signinhandler'
+    | '/_protected/'
+    | '/auth/accept-invitation/$invitationId'
+    | '/_protected/org/$orgId'
     | '/_protected/org/$orgId/user/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
   AuthCreateOrganisationRoute: typeof AuthCreateOrganisationRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSetOrganisationRoute: typeof AuthSetOrganisationRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  AuthSigninhandlerRoute: typeof AuthSigninhandlerRoute
   AuthAcceptInvitationInvitationIdRoute: typeof AuthAcceptInvitationInvitationIdRoute
-  ProtectedOrgOrgIdIndexLazyRoute: typeof ProtectedOrgOrgIdIndexLazyRoute
-  ProtectedOrgOrgIdUserUserIdLazyRoute: typeof ProtectedOrgOrgIdUserUserIdLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/sign-up': {
-      id: '/_auth/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
+    '/_protected/': {
+      id: '/_protected/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/auth/signinhandler': {
+      id: '/auth/signinhandler'
+      path: '/auth/signinhandler'
+      fullPath: '/auth/signinhandler'
+      preLoaderRoute: typeof AuthSigninhandlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/sign-up': {
+      id: '/auth/sign-up'
+      path: '/auth/sign-up'
+      fullPath: '/auth/sign-up'
       preLoaderRoute: typeof AuthSignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/sign-in': {
-      id: '/_auth/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
+    '/auth/sign-in': {
+      id: '/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/set-organisation': {
-      id: '/_auth/set-organisation'
-      path: '/set-organisation'
-      fullPath: '/set-organisation'
+    '/auth/set-organisation': {
+      id: '/auth/set-organisation'
+      path: '/auth/set-organisation'
+      fullPath: '/auth/set-organisation'
       preLoaderRoute: typeof AuthSetOrganisationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/reset-password': {
-      id: '/_auth/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
       preLoaderRoute: typeof AuthResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/forgot-password': {
-      id: '/_auth/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/create-organisation': {
-      id: '/_auth/create-organisation'
-      path: '/create-organisation'
-      fullPath: '/create-organisation'
+    '/auth/create-organisation': {
+      id: '/auth/create-organisation'
+      path: '/auth/create-organisation'
+      fullPath: '/auth/create-organisation'
       preLoaderRoute: typeof AuthCreateOrganisationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/accept-invitation/$invitationId': {
-      id: '/_auth/accept-invitation/$invitationId'
-      path: '/accept-invitation/$invitationId'
-      fullPath: '/accept-invitation/$invitationId'
-      preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_protected/org/$orgId/': {
-      id: '/_protected/org/$orgId/'
+    '/_protected/org/$orgId': {
+      id: '/_protected/org/$orgId'
       path: '/org/$orgId'
       fullPath: '/org/$orgId'
-      preLoaderRoute: typeof ProtectedOrgOrgIdIndexLazyRouteImport
+      preLoaderRoute: typeof ProtectedOrgOrgIdRouteLazyRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/auth/accept-invitation/$invitationId': {
+      id: '/auth/accept-invitation/$invitationId'
+      path: '/auth/accept-invitation/$invitationId'
+      fullPath: '/auth/accept-invitation/$invitationId'
+      preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_protected/org/$orgId/user/$userId': {
       id: '/_protected/org/$orgId/user/$userId'
-      path: '/org/$orgId/user/$userId'
+      path: '/user/$userId'
       fullPath: '/org/$orgId/user/$userId'
-      preLoaderRoute: typeof ProtectedOrgOrgIdUserUserIdLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport
+      parentRoute: typeof ProtectedOrgOrgIdRouteLazyRoute
     }
   }
 }
 
+interface ProtectedOrgOrgIdRouteLazyRouteChildren {
+  ProtectedOrgOrgIdUserUserIdRouteLazyRoute: typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
+}
+
+const ProtectedOrgOrgIdRouteLazyRouteChildren: ProtectedOrgOrgIdRouteLazyRouteChildren =
+  {
+    ProtectedOrgOrgIdUserUserIdRouteLazyRoute:
+      ProtectedOrgOrgIdUserUserIdRouteLazyRoute,
+  }
+
+const ProtectedOrgOrgIdRouteLazyRouteWithChildren =
+  ProtectedOrgOrgIdRouteLazyRoute._addFileChildren(
+    ProtectedOrgOrgIdRouteLazyRouteChildren,
+  )
+
+interface ProtectedRouteRouteChildren {
+  ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedOrgOrgIdRouteLazyRoute: typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
+}
+
+const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedOrgOrgIdRouteLazyRoute: ProtectedOrgOrgIdRouteLazyRouteWithChildren,
+}
+
+const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
+  ProtectedRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
   AuthCreateOrganisationRoute: AuthCreateOrganisationRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSetOrganisationRoute: AuthSetOrganisationRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  AuthSigninhandlerRoute: AuthSigninhandlerRoute,
   AuthAcceptInvitationInvitationIdRoute: AuthAcceptInvitationInvitationIdRoute,
-  ProtectedOrgOrgIdIndexLazyRoute: ProtectedOrgOrgIdIndexLazyRoute,
-  ProtectedOrgOrgIdUserUserIdLazyRoute: ProtectedOrgOrgIdUserUserIdLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
