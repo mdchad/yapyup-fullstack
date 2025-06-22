@@ -37,7 +37,7 @@
     "@trpc/tanstack-react-query": "^11.0.0",
     "@trpc/client": "^11.0.0",
     "@trpc/server": "^11.0.0",
-    "better-auth": "^1.2.8",
+    "better-auth": "catalog:",
     "@better-auth/expo": "^1.2.8"
   },
   "devDependencies": {

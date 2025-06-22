@@ -7,6 +7,13 @@ import resend from "./resend";
 import { desc, eq } from "drizzle-orm";
 import resendInvitation from "@/utils/resend-invitation";
 
+import { stripe } from "@better-auth/stripe";
+import Stripe from "stripe";
+
+const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-05-28.basil",
+});
+
 export const auth: any = betterAuth({
   database: drizzleAdapter(db, {
     provider: "sqlite",
@@ -97,6 +104,32 @@ export const auth: any = betterAuth({
       },
     }),
     admin(),
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      createCustomerOnSignUp: true,
+      subscription: {
+        enabled: true,
+        plans: [
+          {
+            name: "basic",
+            priceId: "price_1RbyujK8PmgjafN9mlXjC9Vi",
+            limits: {
+              projects: 5,
+              storage: 10,
+            },
+          },
+          {
+            name: "pro",
+            priceId: "price_1RbyvLK8PmgjafN9M2KP1aTF",
+            limits: {
+              projects: 20,
+              storage: 50,
+            },
+          },
+        ],
+      },
+    }),
   ],
   // socialProviders: {
   //   github: {

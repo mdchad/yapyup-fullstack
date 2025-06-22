@@ -16,19 +16,21 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "zod": "^3.25.16",
-    "@trpc/server": "^11.0.0",
-    "@trpc/client": "^11.0.0",
-    "fastify": "^5.3.3",
-    "@fastify/cors": "^11.0.1",
-    "drizzle-orm": "^0.38.4",
-    "@libsql/client": "^0.14.0",
-    "better-auth": "^1.2.8",
     "@better-auth/expo": "^1.2.8",
+    "@better-auth/stripe": "catalog:",
+    "@fastify/cors": "^11.0.1",
+    "@libsql/client": "^0.14.0",
     "@react-email/components": "^0.0.41",
+    "@repo/emails": "workspace:*",
+    "@trpc/client": "^11.0.0",
+    "@trpc/server": "^11.0.0",
+    "better-auth": "catalog:",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.4",
+    "fastify": "^5.3.3",
     "resend": "^4.5.1",
-    "@repo/emails": "workspace:*"
+    "stripe": "^18.0.0",
+    "zod": "^3.25.16"
   },
   "devDependencies": {
     "tsc-alias": "^1.8.11",
