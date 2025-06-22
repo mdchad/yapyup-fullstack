@@ -2,13 +2,13 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="max-w-7xl mx-auto py-20 px-4">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12 font-mono text-gray-600 text-xs">
+<footer class="sm:max-w-3xl md:max-w-4xl lg:max-w-5xl mx-auto py-20 px-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 font-mono text-gray-600 text-xs">
     <!-- Product Column -->
     <div>
       <h3 class="font-semibold text-gray-900 mb-4">Product</h3>
       <ul class="space-y-3">
-        <li><a href="/get-started" class="hover:text-gray-900">Get Started</a></li>
+        <li><a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/`} class="hover:text-gray-900">Get Started</a></li>
         <li><a href="/pricing" class="hover:text-gray-900">Pricing</a></li>
         <li><a href="/feedback" class="hover:text-gray-900">Feedback</a></li>
         <li><a href="/updates" class="hover:text-gray-900">Updates</a></li>
@@ -22,12 +22,12 @@ const currentYear = new Date().getFullYear();
     <div>
       <h3 class="font-semibold text-gray-900 mb-4">Support</h3>
       <ul class="space-y-3">
-        <li><a href="/contact" class="text-gray-600 hover:text-gray-900">Contact</a></li>
+        <li><a href="mailto:irsyad@pixelmindstudio.co" class="text-gray-600 hover:text-gray-900">Contact</a></li>
         <li><a href="/docs" class="text-gray-600 hover:text-gray-900">Docs</a></li>
         <li><a href="/blog" class="text-gray-600 hover:text-gray-900">Blog</a></li>
         <li><a href="/status" class="text-gray-600 hover:text-gray-900">Status</a></li>
-        <li><a href="/stories" class="text-gray-600 hover:text-gray-900">Stories</a></li>
-        <li><a href="/definitions" class="text-gray-600 hover:text-gray-900">Definitions</a></li>
+        <!--<li><a href="/stories" class="text-gray-600 hover:text-gray-900">Stories</a></li>-->
+        <!--<li><a href="/definitions" class="text-gray-600 hover:text-gray-900">Definitions</a></li>-->
       </ul>
     </div>
 
@@ -41,21 +41,21 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <!-- Resources Column -->
-    <div>
-      <h3 class="font-semibold text-gray-900 mb-4">Resources</h3>
-      <ul class="space-y-3">
-        <li><a href="/canny-alternative" class="text-gray-600 hover:text-gray-900">Canny Alternative</a></li>
-        <li><a href="/nolt-alternative" class="text-gray-600 hover:text-gray-900">Nolt.io Alternative</a></li>
-        <li><a href="/uservoice-alternative" class="text-gray-600 hover:text-gray-900">UserVoice Alternative</a></li>
-        <li><a href="/compare" class="text-gray-600 hover:text-gray-900">Compare</a></li>
-      </ul>
-    </div>
+    <!--<div>-->
+    <!--  <h3 class="font-semibold text-gray-900 mb-4">Resources</h3>-->
+    <!--  <ul class="space-y-3">-->
+    <!--    <li><a href="/canny-alternative" class="text-gray-600 hover:text-gray-900">Canny Alternative</a></li>-->
+    <!--    <li><a href="/nolt-alternative" class="text-gray-600 hover:text-gray-900">Nolt.io Alternative</a></li>-->
+    <!--    <li><a href="/uservoice-alternative" class="text-gray-600 hover:text-gray-900">UserVoice Alternative</a></li>-->
+    <!--    <li><a href="/compare" class="text-gray-600 hover:text-gray-900">Compare</a></li>-->
+    <!--  </ul>-->
+    <!--</div>-->
   </div>
 
   <!-- Copyright and Social -->
   <div class="flex justify-between items-center pt-8 border-t border-gray-200 text-xs">
     <p class="text-sm text-gray-600">© {currentYear} Yapyup. All rights reserved.</p>
-    <a href="https://twitter.com/userjot" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900">
+    <a href="https://twitter.com/irsyadchad14" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900">
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
       </svg>

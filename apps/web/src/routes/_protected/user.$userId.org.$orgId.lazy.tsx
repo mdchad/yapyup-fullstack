@@ -34,8 +34,8 @@ function RouteComponent() {
   async function onSubscribe() {
     await authClient.subscription.upgrade({
       plan: "pro",
-      successUrl: "/",
-      cancelUrl: "/chat",
+      successUrl: import.meta.env.DASHBOARD_CLIENT_URL + "/",
+      cancelUrl: `${import.meta.env.DASHBOARD_CLIENT_URL}/chat`,
     });
   }
 

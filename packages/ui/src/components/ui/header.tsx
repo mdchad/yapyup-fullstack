@@ -141,7 +141,10 @@ export function Header({
               </Button>
             </a>
           ) : (
-            <a href={`${import.meta.env.DASHBOARD_CLIENT_URL}/auth/sign-in`}>
+            <a
+              href={`${import.meta.env.DASHBOARD_CLIENT_URL}/auth/sign-in`}
+              target="_blank"
+            >
               <Button className="text-xs lg:text-md cursor-pointer rounded-md bg-white text-gray-700 hover:text-black hover:bg-gray-100 border border-gray-200 shadow-sm">
                 Sign In
               </Button>
