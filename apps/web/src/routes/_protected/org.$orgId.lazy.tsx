@@ -218,7 +218,7 @@ function RouteComponent() {
                         <td className="py-2">{"-"}</td>
                         <td className="py-2 text-right">
                           <Link
-                            to="/org/$orgId/user/$userId"
+                            to="/user/$userId/org/$orgId"
                             params={{
                               orgId: params.orgId,
                               userId: member.id,

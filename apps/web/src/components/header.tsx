@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
 
-export default function Header({ isAuthenticated }) {
+export default function Header({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) {
   return (
     <header className="p-2 flex gap-2 bg-white text-black justify-between">
       <nav className="flex flex-row">
@@ -10,23 +14,17 @@ export default function Header({ isAuthenticated }) {
           </Link>
         </div>
 
-        <div className="px-2">
-          <Link to="/demo/tanstack-query" className="[&.active]:font-bold">
-            TanStack Query
-          </Link>
-        </div>
-
         {isAuthenticated ? (
           <>
             <div className="px-2">
-              <Link to="/" exact className="[&.active]:font-bold">
+              <Link to="/" className="[&.active]:font-bold">
                 Dashboard
               </Link>
             </div>
             <div className="px-2">
-              <Link to="/chat" className="[&.active]:font-bold">
-                Chat
-              </Link>
+              {/*<Link to="/chat" className="[&.active]:font-bold">*/}
+              {/*  Chat*/}
+              {/*</Link>*/}
             </div>
           </>
         ) : (

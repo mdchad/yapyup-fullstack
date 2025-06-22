@@ -45,10 +45,7 @@ export const App = () => {
 
   useEffect(() => {
     if (!organization.isPending && !auth.isPending) {
-      console.log("dataaa auth", organization.data);
-      console.log("provider", auth);
       router.invalidate();
-      console.log("invalidate");
     }
   }, [
     organization.isPending,

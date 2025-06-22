@@ -77,6 +77,9 @@ export const organization = sqliteTable("organization", {
   slug: text("slug").unique(),
   logo: text("logo"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date(),
+  ),
   metadata: text("metadata"),
 });
 

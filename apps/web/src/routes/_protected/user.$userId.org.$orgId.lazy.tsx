@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { authQueries } from "@/lib/queries/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card";
 
-export const Route = createLazyFileRoute("/_protected/org/$orgId/user/$userId")(
+export const Route = createLazyFileRoute("/_protected/user/$userId/org/$orgId")(
   {
     component: RouteComponent,
   },
@@ -22,7 +22,7 @@ export const Route = createLazyFileRoute("/_protected/org/$orgId/user/$userId")(
 
 function RouteComponent() {
   const auth = useRouteContext({
-    from: "/_protected/org/$orgId/user/$userId",
+    from: "/_protected/user/$userId/org/$orgId",
     select: (context) => context.auth,
   });
   async function handleSubmit(e: any) {
@@ -30,6 +30,14 @@ function RouteComponent() {
   }
 
   function handleChange() {}
+
+  async function onSubscribe() {
+    await authClient.subscription.upgrade({
+      plan: "pro",
+      successUrl: "/",
+      cancelUrl: "/chat",
+    });
+  }
 
   return (
     <div>
@@ -69,6 +77,9 @@ function RouteComponent() {
                   </div>
                 </div>
                 <Button type="submit">{"Update"}</Button>
+                <Button type="submit" onClick={onSubscribe}>
+                  Subscribe
+                </Button>
               </form>
             </CardContent>
           </Card>

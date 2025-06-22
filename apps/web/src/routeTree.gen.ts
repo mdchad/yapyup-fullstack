@@ -22,11 +22,12 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-pas
 import { Route as AuthCreateOrganisationRouteImport } from './routes/auth/create-organisation'
 import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/auth/accept-invitation.$invitationId'
 
-const ProtectedOrgOrgIdRouteLazyRouteImport = createFileRoute(
+const ProtectedChatLazyRouteImport = createFileRoute('/_protected/chat')()
+const ProtectedOrgOrgIdLazyRouteImport = createFileRoute(
   '/_protected/org/$orgId',
 )()
-const ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport = createFileRoute(
-  '/_protected/org/$orgId/user/$userId',
+const ProtectedUserUserIdOrgOrgIdLazyRouteImport = createFileRoute(
+  '/_protected/user/$userId/org/$orgId',
 )()
 
 const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
@@ -38,6 +39,13 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const ProtectedChatLazyRoute = ProtectedChatLazyRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any).lazy(() =>
+  import('./routes/_protected/chat.lazy').then((d) => d.Route),
+)
 const AuthSigninhandlerRoute = AuthSigninhandlerRouteImport.update({
   id: '/auth/signinhandler',
   path: '/auth/signinhandler',
@@ -73,27 +81,26 @@ const AuthCreateOrganisationRoute = AuthCreateOrganisationRouteImport.update({
   path: '/auth/create-organisation',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedOrgOrgIdRouteLazyRoute =
-  ProtectedOrgOrgIdRouteLazyRouteImport.update({
-    id: '/org/$orgId',
-    path: '/org/$orgId',
-    getParentRoute: () => ProtectedRouteRoute,
-  } as any).lazy(() =>
-    import('./routes/_protected/org/$orgId/route.lazy').then((d) => d.Route),
-  )
+const ProtectedOrgOrgIdLazyRoute = ProtectedOrgOrgIdLazyRouteImport.update({
+  id: '/org/$orgId',
+  path: '/org/$orgId',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any).lazy(() =>
+  import('./routes/_protected/org.$orgId.lazy').then((d) => d.Route),
+)
 const AuthAcceptInvitationInvitationIdRoute =
   AuthAcceptInvitationInvitationIdRouteImport.update({
     id: '/auth/accept-invitation/$invitationId',
     path: '/auth/accept-invitation/$invitationId',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ProtectedOrgOrgIdUserUserIdRouteLazyRoute =
-  ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport.update({
-    id: '/user/$userId',
-    path: '/user/$userId',
-    getParentRoute: () => ProtectedOrgOrgIdRouteLazyRoute,
+const ProtectedUserUserIdOrgOrgIdLazyRoute =
+  ProtectedUserUserIdOrgOrgIdLazyRouteImport.update({
+    id: '/user/$userId/org/$orgId',
+    path: '/user/$userId/org/$orgId',
+    getParentRoute: () => ProtectedRouteRoute,
   } as any).lazy(() =>
-    import('./routes/_protected/org/$orgId/user/$userId/route.lazy').then(
+    import('./routes/_protected/user.$userId.org.$orgId.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -106,10 +113,11 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/chat': typeof ProtectedChatLazyRoute
   '/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
-  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRoutesByTo {
   '/auth/create-organisation': typeof AuthCreateOrganisationRoute
@@ -119,10 +127,11 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/chat': typeof ProtectedChatLazyRoute
   '/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
-  '/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
+  '/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,10 +143,11 @@ export interface FileRoutesById {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
+  '/_protected/chat': typeof ProtectedChatLazyRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/_protected/org/$orgId': typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
-  '/_protected/org/$orgId/user/$userId': typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
+  '/_protected/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/_protected/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,10 +159,11 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/signinhandler'
+    | '/chat'
     | '/'
     | '/auth/accept-invitation/$invitationId'
     | '/org/$orgId'
-    | '/org/$orgId/user/$userId'
+    | '/user/$userId/org/$orgId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth/create-organisation'
@@ -162,10 +173,11 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/signinhandler'
+    | '/chat'
     | '/'
     | '/auth/accept-invitation/$invitationId'
     | '/org/$orgId'
-    | '/org/$orgId/user/$userId'
+    | '/user/$userId/org/$orgId'
   id:
     | '__root__'
     | '/_protected'
@@ -176,10 +188,11 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/auth/signinhandler'
+    | '/_protected/chat'
     | '/_protected/'
     | '/auth/accept-invitation/$invitationId'
     | '/_protected/org/$orgId'
-    | '/_protected/org/$orgId/user/$userId'
+    | '/_protected/user/$userId/org/$orgId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,6 +221,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof ProtectedIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/chat': {
+      id: '/_protected/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ProtectedChatLazyRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/auth/signinhandler': {
@@ -263,7 +283,7 @@ declare module '@tanstack/react-router' {
       id: '/_protected/org/$orgId'
       path: '/org/$orgId'
       fullPath: '/org/$orgId'
-      preLoaderRoute: typeof ProtectedOrgOrgIdRouteLazyRouteImport
+      preLoaderRoute: typeof ProtectedOrgOrgIdLazyRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/auth/accept-invitation/$invitationId': {
@@ -273,39 +293,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/org/$orgId/user/$userId': {
-      id: '/_protected/org/$orgId/user/$userId'
-      path: '/user/$userId'
-      fullPath: '/org/$orgId/user/$userId'
-      preLoaderRoute: typeof ProtectedOrgOrgIdUserUserIdRouteLazyRouteImport
-      parentRoute: typeof ProtectedOrgOrgIdRouteLazyRoute
+    '/_protected/user/$userId/org/$orgId': {
+      id: '/_protected/user/$userId/org/$orgId'
+      path: '/user/$userId/org/$orgId'
+      fullPath: '/user/$userId/org/$orgId'
+      preLoaderRoute: typeof ProtectedUserUserIdOrgOrgIdLazyRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
   }
 }
 
-interface ProtectedOrgOrgIdRouteLazyRouteChildren {
-  ProtectedOrgOrgIdUserUserIdRouteLazyRoute: typeof ProtectedOrgOrgIdUserUserIdRouteLazyRoute
-}
-
-const ProtectedOrgOrgIdRouteLazyRouteChildren: ProtectedOrgOrgIdRouteLazyRouteChildren =
-  {
-    ProtectedOrgOrgIdUserUserIdRouteLazyRoute:
-      ProtectedOrgOrgIdUserUserIdRouteLazyRoute,
-  }
-
-const ProtectedOrgOrgIdRouteLazyRouteWithChildren =
-  ProtectedOrgOrgIdRouteLazyRoute._addFileChildren(
-    ProtectedOrgOrgIdRouteLazyRouteChildren,
-  )
-
 interface ProtectedRouteRouteChildren {
+  ProtectedChatLazyRoute: typeof ProtectedChatLazyRoute
   ProtectedIndexRoute: typeof ProtectedIndexRoute
-  ProtectedOrgOrgIdRouteLazyRoute: typeof ProtectedOrgOrgIdRouteLazyRouteWithChildren
+  ProtectedOrgOrgIdLazyRoute: typeof ProtectedOrgOrgIdLazyRoute
+  ProtectedUserUserIdOrgOrgIdLazyRoute: typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedChatLazyRoute: ProtectedChatLazyRoute,
   ProtectedIndexRoute: ProtectedIndexRoute,
-  ProtectedOrgOrgIdRouteLazyRoute: ProtectedOrgOrgIdRouteLazyRouteWithChildren,
+  ProtectedOrgOrgIdLazyRoute: ProtectedOrgOrgIdLazyRoute,
+  ProtectedUserUserIdOrgOrgIdLazyRoute: ProtectedUserUserIdOrgOrgIdLazyRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(

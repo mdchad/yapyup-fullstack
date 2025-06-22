@@ -12,6 +12,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: "https://www.yapyup.com",
+  site: "https://yapyup.com",
   integrations: [mdx(), sitemap(), icon(), react()],
 });

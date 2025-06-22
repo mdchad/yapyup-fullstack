@@ -107,13 +107,14 @@ export const auth: any = betterAuth({
     stripe({
       stripeClient,
       stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
-      createCustomerOnSignUp: true,
+      // createCustomerOnSignUp: true,
       subscription: {
         enabled: true,
         plans: [
           {
-            name: "basic",
-            priceId: "price_1RbyujK8PmgjafN9mlXjC9Vi",
+            name: "basic - monthly",
+            priceId: "price_1Rbz7fK8PmgjafN9T2X6eDqH",
+            annualDiscountPriceId: "price_1RcamcK8PmgjafN9TwojpvKR",
             limits: {
               projects: 5,
               storage: 10,
@@ -121,11 +122,8 @@ export const auth: any = betterAuth({
           },
           {
             name: "pro",
-            priceId: "price_1RbyvLK8PmgjafN9M2KP1aTF",
-            limits: {
-              projects: 20,
-              storage: 50,
-            },
+            priceId: "price_1RcanjK8PmgjafN9R2inWYqj",
+            annualDiscountPriceId: "price_1RcaoMK8PmgjafN9OyBq33CQ",
           },
         ],
       },
