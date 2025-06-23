@@ -14,8 +14,6 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "@repo/ui/globals.css";
 import { authClient } from "@/lib/auth-client";
-import { useEffect } from "react";
-import { router } from "@/main";
 import { z } from "zod";
 
 export interface RouterAppContext {

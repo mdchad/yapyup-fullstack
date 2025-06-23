@@ -6,6 +6,7 @@ import { admin, organization } from "better-auth/plugins";
 import resend from "./resend";
 import { desc, eq } from "drizzle-orm";
 import resendInvitation from "@/utils/resend-invitation";
+import { ac, owner, adminRole, member } from "@/lib/permissions";
 
 import { stripe } from "@better-auth/stripe";
 import Stripe from "stripe";
@@ -85,6 +86,12 @@ export const auth: any = betterAuth({
   },
   plugins: [
     organization({
+      ac,
+      roles: {
+        owner,
+        adminRole,
+        member,
+      },
       // Optional: Configure organization plugin options here
       creatorRole: "owner",
       async sendInvitationEmail(data) {

@@ -26,7 +26,7 @@ export const appRouter = router({
     const notes = await db
       .select()
       .from(resourceSchema.note)
-      .where(eq(resourceSchema.note.userId, ctx.session.user.id))
+      .where(eq(resourceSchema.note.userId, ctx.session.session.userId))
       .orderBy(desc(resourceSchema.note.updatedAt));
 
     return notes;
@@ -46,8 +46,8 @@ export const appRouter = router({
           id: createId(),
           title: input.title,
           content: input.content || "",
-          userId: ctx.session.user.id,
-          organizationId: input.organizationId,
+          userId: ctx.session.session.userId,
+          organizationId: ctx.session.session.activeOrganizationId,
         })
         .returning();
 

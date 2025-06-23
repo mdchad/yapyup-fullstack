@@ -51,4 +51,16 @@ export const authQueries = {
       queryFn: () => authClient.useListOrganizations(),
       staleTime: 2 * 60 * 1000,
     }),
+
+  hasPermission: (userId: string) =>
+    queryOptions({
+      queryKey: ["note", "permission", userId],
+      queryFn: () =>
+        authClient.organization.hasPermission({
+          permissions: {
+            note: ["create"],
+          },
+        }),
+      staleTime: 2 * 60 * 1000,
+    }),
 };
