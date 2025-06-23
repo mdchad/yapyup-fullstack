@@ -94,11 +94,8 @@ export const auth: any = betterAuth({
           .where(eq(schema.user.email, data?.email))
           .limit(1);
 
-        console.log(userExist);
-        console.log(data.email);
-
         const step = userExist.length ? "login" : "signup";
-        const inviteLink = `${process.env.CORS_ORIGIN!}/accept-invitation/${data.id}?step=${step}&email=${data.email}`;
+        const inviteLink = `${process.env.CORS_ORIGIN!}/auth/accept-invitation/${data.id}?step=${step}&email=${data.email}`;
 
         await resend.emails.send(resendInvitation(data, inviteLink));
       },

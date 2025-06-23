@@ -21,6 +21,7 @@
     "@better-auth/stripe": "catalog:",
     "@fastify/cors": "^11.0.1",
     "@libsql/client": "^0.14.0",
+    "@paralleldrive/cuid2": "^2.2.2",
     "@react-email/components": "^0.0.41",
     "@repo/emails": "workspace:*",
     "@trpc/client": "^11.0.0",

@@ -22,9 +22,13 @@ import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-pas
 import { Route as AuthCreateOrganisationRouteImport } from './routes/auth/create-organisation'
 import { Route as AuthAcceptInvitationInvitationIdRouteImport } from './routes/auth/accept-invitation.$invitationId'
 
+const ProtectedNotesLazyRouteImport = createFileRoute('/_protected/notes')()
 const ProtectedChatLazyRouteImport = createFileRoute('/_protected/chat')()
-const ProtectedOrgOrgIdLazyRouteImport = createFileRoute(
-  '/_protected/org/$orgId',
+const ProtectedOrgOrgIdTeamLazyRouteImport = createFileRoute(
+  '/_protected/org/$orgId/team',
+)()
+const ProtectedOrgOrgIdBillingLazyRouteImport = createFileRoute(
+  '/_protected/org/$orgId/billing',
 )()
 const ProtectedUserUserIdOrgOrgIdLazyRouteImport = createFileRoute(
   '/_protected/user/$userId/org/$orgId',
@@ -39,6 +43,13 @@ const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
+const ProtectedNotesLazyRoute = ProtectedNotesLazyRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any).lazy(() =>
+  import('./routes/_protected/notes.lazy').then((d) => d.Route),
+)
 const ProtectedChatLazyRoute = ProtectedChatLazyRouteImport.update({
   id: '/chat',
   path: '/chat',
@@ -81,19 +92,28 @@ const AuthCreateOrganisationRoute = AuthCreateOrganisationRouteImport.update({
   path: '/auth/create-organisation',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedOrgOrgIdLazyRoute = ProtectedOrgOrgIdLazyRouteImport.update({
-  id: '/org/$orgId',
-  path: '/org/$orgId',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any).lazy(() =>
-  import('./routes/_protected/org.$orgId.lazy').then((d) => d.Route),
-)
 const AuthAcceptInvitationInvitationIdRoute =
   AuthAcceptInvitationInvitationIdRouteImport.update({
     id: '/auth/accept-invitation/$invitationId',
     path: '/auth/accept-invitation/$invitationId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ProtectedOrgOrgIdTeamLazyRoute =
+  ProtectedOrgOrgIdTeamLazyRouteImport.update({
+    id: '/org/$orgId/team',
+    path: '/org/$orgId/team',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_protected/org.$orgId.team.lazy').then((d) => d.Route),
+  )
+const ProtectedOrgOrgIdBillingLazyRoute =
+  ProtectedOrgOrgIdBillingLazyRouteImport.update({
+    id: '/org/$orgId/billing',
+    path: '/org/$orgId/billing',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_protected/org.$orgId.billing.lazy').then((d) => d.Route),
+  )
 const ProtectedUserUserIdOrgOrgIdLazyRoute =
   ProtectedUserUserIdOrgOrgIdLazyRouteImport.update({
     id: '/user/$userId/org/$orgId',
@@ -114,9 +134,11 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
   '/chat': typeof ProtectedChatLazyRoute
+  '/notes': typeof ProtectedNotesLazyRoute
   '/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/org/$orgId/billing': typeof ProtectedOrgOrgIdBillingLazyRoute
+  '/org/$orgId/team': typeof ProtectedOrgOrgIdTeamLazyRoute
   '/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRoutesByTo {
@@ -128,9 +150,11 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
   '/chat': typeof ProtectedChatLazyRoute
+  '/notes': typeof ProtectedNotesLazyRoute
   '/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/org/$orgId/billing': typeof ProtectedOrgOrgIdBillingLazyRoute
+  '/org/$orgId/team': typeof ProtectedOrgOrgIdTeamLazyRoute
   '/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRoutesById {
@@ -144,9 +168,11 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/auth/signinhandler': typeof AuthSigninhandlerRoute
   '/_protected/chat': typeof ProtectedChatLazyRoute
+  '/_protected/notes': typeof ProtectedNotesLazyRoute
   '/_protected/': typeof ProtectedIndexRoute
   '/auth/accept-invitation/$invitationId': typeof AuthAcceptInvitationInvitationIdRoute
-  '/_protected/org/$orgId': typeof ProtectedOrgOrgIdLazyRoute
+  '/_protected/org/$orgId/billing': typeof ProtectedOrgOrgIdBillingLazyRoute
+  '/_protected/org/$orgId/team': typeof ProtectedOrgOrgIdTeamLazyRoute
   '/_protected/user/$userId/org/$orgId': typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 export interface FileRouteTypes {
@@ -160,9 +186,11 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/auth/signinhandler'
     | '/chat'
+    | '/notes'
     | '/'
     | '/auth/accept-invitation/$invitationId'
-    | '/org/$orgId'
+    | '/org/$orgId/billing'
+    | '/org/$orgId/team'
     | '/user/$userId/org/$orgId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -174,9 +202,11 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/auth/signinhandler'
     | '/chat'
+    | '/notes'
     | '/'
     | '/auth/accept-invitation/$invitationId'
-    | '/org/$orgId'
+    | '/org/$orgId/billing'
+    | '/org/$orgId/team'
     | '/user/$userId/org/$orgId'
   id:
     | '__root__'
@@ -189,9 +219,11 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/auth/signinhandler'
     | '/_protected/chat'
+    | '/_protected/notes'
     | '/_protected/'
     | '/auth/accept-invitation/$invitationId'
-    | '/_protected/org/$orgId'
+    | '/_protected/org/$orgId/billing'
+    | '/_protected/org/$orgId/team'
     | '/_protected/user/$userId/org/$orgId'
   fileRoutesById: FileRoutesById
 }
@@ -221,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof ProtectedIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/notes': {
+      id: '/_protected/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof ProtectedNotesLazyRouteImport
       parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/chat': {
@@ -279,19 +318,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCreateOrganisationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/org/$orgId': {
-      id: '/_protected/org/$orgId'
-      path: '/org/$orgId'
-      fullPath: '/org/$orgId'
-      preLoaderRoute: typeof ProtectedOrgOrgIdLazyRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
     '/auth/accept-invitation/$invitationId': {
       id: '/auth/accept-invitation/$invitationId'
       path: '/auth/accept-invitation/$invitationId'
       fullPath: '/auth/accept-invitation/$invitationId'
       preLoaderRoute: typeof AuthAcceptInvitationInvitationIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_protected/org/$orgId/team': {
+      id: '/_protected/org/$orgId/team'
+      path: '/org/$orgId/team'
+      fullPath: '/org/$orgId/team'
+      preLoaderRoute: typeof ProtectedOrgOrgIdTeamLazyRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/org/$orgId/billing': {
+      id: '/_protected/org/$orgId/billing'
+      path: '/org/$orgId/billing'
+      fullPath: '/org/$orgId/billing'
+      preLoaderRoute: typeof ProtectedOrgOrgIdBillingLazyRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
     '/_protected/user/$userId/org/$orgId': {
       id: '/_protected/user/$userId/org/$orgId'
@@ -305,15 +351,19 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteRouteChildren {
   ProtectedChatLazyRoute: typeof ProtectedChatLazyRoute
+  ProtectedNotesLazyRoute: typeof ProtectedNotesLazyRoute
   ProtectedIndexRoute: typeof ProtectedIndexRoute
-  ProtectedOrgOrgIdLazyRoute: typeof ProtectedOrgOrgIdLazyRoute
+  ProtectedOrgOrgIdBillingLazyRoute: typeof ProtectedOrgOrgIdBillingLazyRoute
+  ProtectedOrgOrgIdTeamLazyRoute: typeof ProtectedOrgOrgIdTeamLazyRoute
   ProtectedUserUserIdOrgOrgIdLazyRoute: typeof ProtectedUserUserIdOrgOrgIdLazyRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedChatLazyRoute: ProtectedChatLazyRoute,
+  ProtectedNotesLazyRoute: ProtectedNotesLazyRoute,
   ProtectedIndexRoute: ProtectedIndexRoute,
-  ProtectedOrgOrgIdLazyRoute: ProtectedOrgOrgIdLazyRoute,
+  ProtectedOrgOrgIdBillingLazyRoute: ProtectedOrgOrgIdBillingLazyRoute,
+  ProtectedOrgOrgIdTeamLazyRoute: ProtectedOrgOrgIdTeamLazyRoute,
   ProtectedUserUserIdOrgOrgIdLazyRoute: ProtectedUserUserIdOrgOrgIdLazyRoute,
 }
 

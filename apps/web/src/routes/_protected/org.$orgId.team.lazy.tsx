@@ -22,17 +22,17 @@ import {
 } from "@repo/ui/dropdown-menu";
 import { toast } from "sonner";
 
-export const Route = createLazyFileRoute("/_protected/org/$orgId")({
+export const Route = createLazyFileRoute("/_protected/org/$orgId/team")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { queryClient, organization } = useRouteContext({
-    from: "/_protected/org/$orgId",
+    from: "/_protected/org/$orgId/team",
     select: (context) => context,
   });
 
-  const params = useParams({ from: "/_protected/org/$orgId" });
+  const params = useParams({ from: "/_protected/org/$orgId/team" });
 
   const [org, setOrg] = useState<any>(null);
   const [saving, setSaving] = useState(false);
@@ -89,14 +89,14 @@ function RouteComponent() {
         <div className="mx-auto flex w-full max-w-full flex-col gap-3 px-6 md:max-w-5xl md:gap-6">
           <div className="flex gap-8 pt-8 pb-2 text-sm font-medium">
             <Link
-              to="/org/$orgId"
+              to="/org/$orgId/team"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               Usage
             </Link>
             <Link
-              to="/org/$orgId"
+              to="/org/$orgId/billing"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
@@ -106,21 +106,21 @@ function RouteComponent() {
               Team
             </span>
             <Link
-              to="/org/$orgId"
+              to="/org/$orgId/team"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               SMTP
             </Link>
             <Link
-              to="/org/$orgId"
+              to="/org/$orgId/team"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
               Integrations
             </Link>
             <Link
-              to="/org/$orgId"
+              to="/org/$orgId/team"
               params={{ orgId: params.orgId }}
               className="px-2 py-1 text-gray-600 hover:text-black"
             >
